@@ -5,3 +5,5 @@ shodan>=1.22.0
 sslyze>=3.0.1
 wfuzz>=2.4.5
 xlwt>=1.3.0
+
+Flask>=1.1.2

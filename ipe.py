@@ -6,6 +6,8 @@
 
 import click
 
+import webui
+
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
@@ -21,6 +23,8 @@ def initdb():
 @click.command()
 def run():
     print("run ipe")
+    webui.app.run()
+
 
 cli.add_command(initdb)
 cli.add_command(run)
