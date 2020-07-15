@@ -5,8 +5,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 import click
-
-import webui
+import src.webui as webui
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -14,6 +13,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.group(context_settings=CONTEXT_SETTINGS)
 def cli():
     pass
+
 
 @click.command()
 def initdb():
