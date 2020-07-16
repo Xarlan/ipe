@@ -1,13 +1,60 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% if title %}
-        <title>{{ title }} - Microblog</title>
-        {% else %}
-        <title>Welcome to Microblog!</title>
-        {% endif %}
+        <title>test page</title>
     </head>
     <body>
-        <h1>Hello, {{ user.username }}!</h1>
+        <h1>Add new project</h1>
+        <form action="/api/creteProject" method="POST">
+            <input type="text" name="name" placeholder="Test pentest project" value="test project">
+            <input type="text" name="description" placeholder="description of this project" value="lorem ipsum dolor set amet">
+            <input type="text" name="date_from" placeholder="timestamp from" value="1593648000">
+            <input type="text" name="date_to" placeholder="timestamp to" value="1595980800">
+            <input type="text" name="host_history" placeholder="10" value="10">
+            <input type="text" name="retro_delete" placeholder="0" value="0">
+            <input type="text" name="scope_hosts" placeholder="192.168.1.1, 192.168.1.2, 192.168.1.3"
+                   value="192.168.1.1, 192.168.1.2, 192.168.1.3">
+
+            <input class="submit" type="submit" placeholder="Add Project">
+        </form>
+
+        <script>
+            let button = document.getElementsByClassName("submit")[0];
+            button.addEventListener("click", event=>{
+                event.preventDefault();
+                let name = document.querySelector("input[name=name]").value;
+                let description = document.querySelector("input[name=description]").value;
+                let date_from = document.querySelector("input[name=date_from]").value;
+                let date_to = document.querySelector("input[name=date_to]").value;
+                let host_history = document.querySelector("input[name=host_history]").value;
+                let retro_delete = document.querySelector("input[name=retro_delete]").value;
+                let scope_hosts = document.querySelector("input[name=scope_hosts]").value;
+
+                data = {
+                    name: name,
+                    description: description,
+                    date_from: date_from,
+                    date_to: date_to,
+                    host_history: host_history,
+                    retro_delete: retro_delete,
+                    scope_hosts: scope_hosts
+                };
+
+                fetch("http://127.0.0.1:5000/api/creteProject", {
+                    method: "post",
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(data.data);
+                    })
+                    .catch(error => alert(error))
+            })
+        </script>
     </body>
 </html>

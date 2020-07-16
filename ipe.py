@@ -6,6 +6,7 @@
 
 import click
 import src.webui as webui
+from src.db.entities import db
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -18,6 +19,7 @@ def cli():
 @click.command()
 def initdb():
     print("init db")
+    db.create_all()
 
 
 @click.command()
