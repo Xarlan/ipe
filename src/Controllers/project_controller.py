@@ -30,18 +30,12 @@ def create_project(req):
         try:
             db.session.add(project)
             db.session.commit()
-            return flask.Response(response='{"data": "Project created"}',
-                                  status=200,
-                                  mimetype="application/json")
+            return flask.make_response(flask.jsonify({"data": "Project created"}), 200)
 
         except:
-            return flask.Response(response='{"status": 0, "error": "Error during creating project" }',
-                                  status=500,
-                                  mimetype="application/json")
+            return flask.make_response(flask.jsonify({"status": 0, "error": "Error during creating project"}), 500)
     except:
-        return flask.Response(response='{"status": 0, "error": "Incorrect input data" }',
-                              status=500,
-                              mimetype="application/json")
+        return flask.make_response(flask.jsonify({"status": 0, "error": "Incorrect input data"}), 500)
 
 
 def edit_project(req):
@@ -59,17 +53,11 @@ def edit_project(req):
 
         try:
             db.session.commit()
-            return flask.Response(response='{"status": 1}',
-                                status=200,
-                                mimetype="application/json")
+            return flask.make_response(flask.jsonify({"status": 1}), 200)
         except:
-            return flask.Response(response='{"status": 0, "error": "Error occured during editing project" }',
-                                  status=500,
-                                  mimetype="application/json")
+            return flask.make_response(flask.jsonify({"status": 0, "error": "Error occured during editing project"}), 500)
     except:
-        return flask.Response(response='{"status": 0, "error": "Incorrect input data" }',
-                              status=500,
-                              mimetype="application/json")
+        return flask.make_response(flask.jsonify({"status": 0, "error": "Incorrect input data"}), 500)
 
 
 
@@ -82,19 +70,13 @@ def delete_project(req):
         try:
             db.session.delete(project)
             db.session.commit()
-            return flask.Response(response='{"status": 1}',
-                              status=200,
-                              mimetype="application/json")
+            return flask.make_response(flask.jsonify({"status": 1}), 200)
 
         except:
-            return flask.Response(response='{"status": 0, "error": "Error during deleting project" }',
-                                  status=500,
-                                  mimetype="application/json")
+            return flask.make_response(flask.jsonify({"status": 0, "error": "Error during deleting project"}), 500)
 
     except:
-        return flask.Response(response='{"status": 0, "error": "Error occured during processing input data." }',
-                              status=500,
-                              mimetype="application/json")
+        return flask.make_response(flask.jsonify({"status": 0, "error": "Error occured during processing input data."}), 500)
 
 
 def get_project(id):
