@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+    Project name: {{ project.name }}
+    <!--<table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>{{project.id}}</td>
+            <td>{{project.name}}</td>
+            <td>{{project.description}}</td>
+            <th>
+                <a id="delete_project" href="#">delete project</a>
+            </th>
+        </tr>-->
+    </table>
+    <form action="#">
+        <div>
+            <label for="name">name:</label>
+             <input id="name" name="name" value={{project.name}}>
+        </div>
+        <div>
+            <label for="description">description:</label>
+            <input id="description" name="description" value="{{project.description}}">
+        </div>
+        <div>
+            <label for="date_from">date_from:</label>
+            <input id="date_from" name="date_from" value="{{project.date_from}}">
+        </div>
+        <div>
+            <label for="date_to">date_to:</label>
+            <input id="date_to" name="date_to" value="{{project.date_to}}">
+        </div>
+        <div>
+            <label for="host_history">host_history:</label>
+            <input id="host_history" name="host_history" value="{{project.host_history}}">
+        </div>
+        <div>
+            <label for="retro_delete">retro_delete:</label>
+            <input id="retro_delete" name="retro_delete" value="{{project.retro_delete}}">
+        </div>
+        <div>
+            <label for="scope_hosts">scope_hosts:</label>
+            <input id="scope_hosts" name="scope_hosts" value="{{project.scope_hosts}}">
+        </div>
+        <div>
+            <input id="submit" type="submit" placeholder="Save">
+        </div>
+    </form>
+    <a id="delete_project" href="#">delete project</a>
+    <script>
+        let delete_button = document.getElementById("delete_project");
+        let project_id = {{project.id}};
+        let save_button = document.getElementById("submit");
+
+        // TODO: for time use Date.parse('2020-08-29')/1000;
+
+        save_button.addEventListener("click", event => {
+            event.preventDefault();
+            fetch("http://127.0.0.1:5000/api/editProject", {
+                    method: "post",
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        project_id : project_id,
+                        name: document.querySelector("input[name=name]").value,
+                        description: document.querySelector("input[name=description]").value,
+                        date_from: document.querySelector("input[name=date_from]").value,
+                        date_to: document.querySelector("input[name=date_to]").value,
+                        host_history: document.querySelector("input[name=host_history]").value,
+                        retro_delete: document.querySelector("input[name=retro_delete]").value === "False" ? 0 : 1,
+                        scope_hosts: document.querySelector("input[name=scope_hosts]").value
+                    })
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 1) {
+                        alert("Project updated");
+                    }
+                })
+                .catch(error => alert(error))
+        });
+
+
+        delete_button.addEventListener("click", (event) => {
+            event.preventDefault();
+            fetch("http://127.0.0.1:5000/api/deleteProject/", {
+                method: "post",
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    project_id : project_id
+                })
+            })
+            .then(response => {
+                return response.json();
+            })
+                .then(data => {
+                    console.log(data);
+                    if (data.status === 1) {
+                        window.location = "/projects/";
+                    } else {
+                        alert("some error occured!");
+                    }
+                })
+                .catch(error => {
+                    return error;
+                })
+        });
+    </script>
+</body>
+</html>

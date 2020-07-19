@@ -4,7 +4,26 @@
         <title>test page</title>
     </head>
     <body>
-        <h1>Add new project</h1>
+        <h1>List of Projects:</h1>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>description</th>
+                <th></th>
+            </tr>
+            {% for project in projects %}
+            <tr>
+                <td>{{project.id}}</td>
+                <td>{{project.name}}</td>
+                <td>{{project.description}}</td>
+                <td>
+                    <a href="/project/{{ project.id }}">info</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h2>Add new project</h2>
         <form action="/api/creteProject" method="POST">
             <input type="text" name="name" placeholder="Test pentest project" value="test project">
             <input type="text" name="description" placeholder="description of this project" value="lorem ipsum dolor set amet">
