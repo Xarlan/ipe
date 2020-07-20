@@ -3,12 +3,17 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/
 
+# This file contain class and method to
+# - reconnaissance ip:port via masscan
+# - reconnaissance ip:port via Shodan
+
 import shodan
 import time
+import xml.etree.ElementTree as ET
 
 import src.ipe_tools.ipe_common as ipe_tools
 
-class IpeRecon(ipe_tools.IpeTools):
+class IpeReconIpPort(ipe_tools.IpeTools):
     """
     This class describe the functionality:
     - scan ip address using masscan
@@ -26,6 +31,7 @@ class IpeRecon(ipe_tools.IpeTools):
         :return:  [tmp] need check
         """
         pass
+
 
     def scan_shodan(self, raw_list_ip=None, api_key=None):
         """
@@ -131,3 +137,118 @@ class IpeRecon(ipe_tools.IpeTools):
 
         return output_ip
 
+
+    def import_masscan_xml(self, xml):
+        """
+        Import xml file from 'masscan' tool to IPE database
+        :param xml:         xml file
+        # :param fout:        name of output file
+        # :param tout:        format of output: sort by ip-address or port
+        :return:
+        """
+
+        try:
+            masscan_tree = ET.parse(xml.name)
+
+        except ET.ParseError:
+            pass
+            # click.secho("Wrong format of xml", fg='yellow')
+            # exit(0)
+
+        else:
+            root_masscan = masscan_tree.getroot()
+            if root_masscan.attrib['scanner'] != 'masscan':
+                pass
+                # click.secho("This xml isn't output of masscan tool", fg='yellow')
+                # exit(0)
+
+                                # dictionary, where will be stored result
+            output_ip = {}      # sorted by IP:port
+            output_port = {}    # sorted by tcp/udp_port: ip
+
+            for tag_host in root_masscan:
+
+                if len(tag_host.findall(".//")) == 4:
+
+                    ip_addr = ""
+                    port = ""
+                    tcp_udp = ""
+
+                    for item in tag_host.findall(".//"):
+
+                        if item.tag == 'address':
+                            ip_addr = item.attrib['addr']
+
+                        elif item.tag == 'port':
+                            port = item.attrib['portid']
+                            tcp_udp = item.attrib['protocol']
+
+                    if ip_addr in output_ip:
+                        output_ip[ip_addr].append("{}/{}".format(tcp_udp, port))
+                    else:
+                        output_ip.update({ip_addr: ["{}/{}".format(tcp_udp, port)]})
+
+                    key_port = "{}/{}".format(tcp_udp, port)
+
+                    if key_port in output_port:
+                        output_port[key_port].append(ip_addr)
+                    else:
+                        output_port.update({key_port: [ip_addr]})
+
+            return output_ip, output_port
+
+            # if fout is None:
+            #     fout = xml.name.split('.')[0]
+
+            # fout_ip = self.check_fout_name(fout + "_ip")
+            # fout_port = self.check_fout_name(fout + "_port")
+
+            # if tout == 'all' or tout == 'ip':
+
+                # fid = open(fout_ip, 'w')
+
+                # for ipv4 in sorted(output_ip.keys(), key=lambda ipv4: (int(ipv4.split(".")[0], 10),
+                #                                                          int(ipv4.split(".")[1], 10),
+                #                                                          int(ipv4.split(".")[2], 10),
+                #                                                          int(ipv4.split(".")[3], 10))):
+
+
+                    # for detail in output_ip[ipv4]:
+                    #     fid.write('ip:{:<15} => {}\n'.format(ipv4, detail))
+
+                # fid.close()
+
+                # click.secho("\nResult stored (sorting by ip):")
+                # click.secho(fout_ip, fg='green')
+
+            # if humanr:
+            #     fid_human = open(fout_ip + "_human", "w")
+            #     for ipv4 in sorted(output_ip.keys(), key=lambda ipv4: (int(ipv4.split(".")[0], 10),
+            #                                                              int(ipv4.split(".")[1], 10),
+            #                                                              int(ipv4.split(".")[2], 10),
+            #                                                              int(ipv4.split(".")[3], 10))):
+            #
+            #         fid_human.write("ip:{:<15} =>\n".format(ipv4))
+            #
+            #         for detail in output_ip[ipv4]:
+            #             fid_human.write("{:<21} {}\n".format(" ", detail))
+            #
+            #     fid_human.close()
+            #
+            #     click.secho("\nResult stored (sorting by ip & human readble):")
+            #     click.secho(fout_ip + "_human", fg='green')
+
+            # if tout == 'all' or tout == 'port':
+            #
+            #     fid = open(fout_port, 'w')
+            #
+            #     for index in sorted(output_port.keys()):
+            #         fid.write("{}\n".format(index))
+            #
+            #         for detail in output_port[index]:
+            #             fid.write("{:>13}{}\n".format("ip:", detail))
+            #
+            #     fid.close()
+            #
+            #     click.secho("\nResult stored (sorting by port):")
+            #     click.secho(fout_port, fg='green')

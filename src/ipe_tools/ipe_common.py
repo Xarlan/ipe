@@ -7,6 +7,10 @@
 import ipaddress
 
 class IpeTools(object):
+    """
+    This is base class for using tools
+    Provide access to write and read data from database
+    """
 
     def __init__(self):
         pass
@@ -26,7 +30,7 @@ class IpeTools(object):
         pass
 
     @staticmethod
-    def ipv4_sorted(unsorted_ip_list):
+    def ipv4_sort(unsorted_ip_list):
         """
         Sort input ip list by order
         :param unsorted_ip_list:    unsorted ip list
