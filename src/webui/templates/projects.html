@@ -31,9 +31,6 @@
             <input type="text" name="date_to" placeholder="timestamp to" value="1595980800">
             <input type="text" name="host_history" placeholder="10" value="10">
             <input type="text" name="retro_delete" placeholder="0" value="0">
-            <input type="text" name="scope_hosts" placeholder="192.168.1.1, 192.168.1.2, 192.168.1.3"
-                   value="192.168.1.1, 192.168.1.2, 192.168.1.3">
-
             <input class="submit" type="submit" placeholder="Add Project">
         </form>
 
@@ -47,16 +44,14 @@
                 let date_to = document.querySelector("input[name=date_to]").value;
                 let host_history = document.querySelector("input[name=host_history]").value;
                 let retro_delete = document.querySelector("input[name=retro_delete]").value;
-                let scope_hosts = document.querySelector("input[name=scope_hosts]").value;
 
-                data = {
+                let data = {
                     name: name,
                     description: description,
                     date_from: date_from,
                     date_to: date_to,
                     host_history: host_history,
-                    retro_delete: retro_delete,
-                    scope_hosts: scope_hosts
+                    retro_delete: retro_delete
                 };
 
                 fetch("http://127.0.0.1:5000/api/creteProject", {

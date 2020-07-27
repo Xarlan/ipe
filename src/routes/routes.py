@@ -1,5 +1,6 @@
 from src.webui import app
 import src.Controllers.project_controller as project
+import src.Controllers.vulnerability_controller as vulnerability
 from flask import request
 
 # Projects
@@ -34,6 +35,29 @@ def delete_project():
 
 
 # Host
+@app.route('/api/project/importScope', methods=['POST'])
+def import_scope():
+    return project.import_project_scope(request)
 
+
+@app.route('/api/project/deleteScope', methods=['POST'])
+def delete_scope():
+    return project.delete_from_scope(request)
 
 # Vulnerability
+@app.route('/api/createVulnerability', methods=['POST'])
+def create_vulnerability():
+    return vulnerability.create_vulnerability(request)
+
+
+@app.route('/api/deleteVulnerability', methods=['POST'])
+def delete_vulnerability():
+    return vulnerability.delete_vulnerability(request)
+
+
+@app.route('/api/editVulnerability', methods=['POST'])
+def edit_vulnerability():
+    return vulnerability.edit_vulnerability(request)
+
+
+# Attachments
