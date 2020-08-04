@@ -12,7 +12,8 @@ db = SQLAlchemy(webui.app)
 class Host(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='CASCADE'))
-    value = db.Column(INET, nullable=False)
+    ip = db.Column(INET, nullable=True)
+    domain = db.Column(db.String, nullable=True)
 
     def __repr__(self):
         return '<Host>'
@@ -54,3 +55,14 @@ class Project(db.Model):
 
     def __repr__(self):
         return '<Project>'
+
+
+class Attachment(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String, nullable=False)
+    path = db.Column(db.String, nullable=False)
+    filename = db.Column(db.String, nullable=False)
+    vuln_id = db.Column(db.Integer, db.ForeignKey('vulnerability.id'), nullable=False)
+
+    def  __repr__(self):
+        return '<Attachment>'

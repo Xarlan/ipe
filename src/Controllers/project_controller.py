@@ -2,6 +2,7 @@ import flask
 from src.db.entities import Project, db, Host, Vulnerability
 from datetime import date
 import ipaddress
+import validators
 
 
 def get_many_projects(limit=50, page=0):
@@ -44,27 +45,38 @@ def import_project_scope(req):
     project_id = int(req_body['project_id'])
     scope_hosts = req_body['scope_hosts'].splitlines()
     importing_ips = []
+    importing_domains = []
     existing_ips = []
+    existing_domains = []
     hosts = []
 
-    for ip in scope_hosts:
-        # that is for converting ipv6 like 2dfc:0:0:0:0217:cbff:fe8c:0 to 2dfc::217:cbff:fe8c:0
-        importing_ips.append(str(ipaddress.ip_address(ip)))
+    for host in scope_hosts:
+        if validators.domain(str(host)):
+            importing_domains.append(str(host))
+        else:
+            # that is for converting ipv6 like 2dfc:0:0:0:0217:cbff:fe8c:0 to 2dfc::217:cbff:fe8c:0
+            importing_ips.append(str(ipaddress.ip_address(host)))
 
     try:
         existing_hosts = Host.query.filter_by(project_id=project_id).all()
-        for ip in existing_hosts:
-            existing_ips.append(ip.value)
+        for host in existing_hosts:
+            if host.domain and validators.domain(host.domain):
+                existing_domains.append(host.domain)
+            else:
+                existing_ips.append(host.ip)
 
-        # get only unique ip addresses in new list
-        new_hosts = list(set(importing_ips) - set(existing_ips))
+        # get only unique ip addresses and domains in new list
+        new_ips = list(set(importing_ips) - set(existing_ips))
+        new_domains = list(set(importing_domains) - set(existing_domains))
 
-        for ip in new_hosts:
-            hosts.append(Host(project_id=int(project_id), value=ip.strip()))
+        for ip in new_ips:
+            hosts.append(Host(project_id=int(project_id), ip=ip.strip()))
+
+        for domain in new_domains:
+            hosts.append(Host(project_id=int(project_id), domain=domain.strip()))
 
         db.session.add_all(hosts)
         db.session.commit()
-        # TODO: then add the same hosts in tables HOST_RECON
         return flask.make_response(flask.jsonify({"status": 1}), 200)
     except:
         return flask.make_response(flask.jsonify({"status": 0, "error": "Error during importing scope"}), 500)
@@ -76,15 +88,26 @@ def delete_from_scope(req):
     project_id = int(req_body['project_id'])
     hosts_for_delete = list(req_body['delete_hosts'])
     ips_for_delete_prepared = []
+    domains_for_delete_prepared = []
 
-    #  deleting spaces from ip addresses
-    for ip in hosts_for_delete:
-        ips_for_delete_prepared.append(ip.strip())
+    #  deleting spaces from addresses
+    for host in hosts_for_delete:
+        if validators.domain(str(host).strip()):
+            domains_for_delete_prepared.append((host.strip()))
+        else:
+            ips_for_delete_prepared.append(host.strip())
 
     try:
-        search_hosts = Host.query.filter(Host.project_id == project_id, Host.value.in_(ips_for_delete_prepared)).all()
-        for host in search_hosts:
+        search_ips = []
+        search_domains = []
+        if ips_for_delete_prepared:
+            search_ips = Host.query.filter(Host.project_id == project_id, Host.ip.in_(ips_for_delete_prepared)).all()
+        if domains_for_delete_prepared:
+            search_domains = Host.query.filter(Host.project_id == project_id, Host.domain.in_(domains_for_delete_prepared)).all()
+
+        for host in search_ips + search_domains:
             db.session.delete(host)
+
         db.session.commit()
         # TODO: then delete the same ip in tables HOST_RECON and HOSTS_HISTORY
         return flask.make_response(flask.jsonify({"status": 1}), 200)

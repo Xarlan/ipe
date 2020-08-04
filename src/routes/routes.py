@@ -1,6 +1,7 @@
 from src.webui import app
 import src.Controllers.project_controller as project
 import src.Controllers.vulnerability_controller as vulnerability
+import src.Controllers.attachment_controller as attachment
 from flask import request
 
 # Projects
@@ -60,4 +61,17 @@ def edit_vulnerability():
     return vulnerability.edit_vulnerability(request)
 
 
-# Attachments
+# Attachment
+@app.route('/api/uploadFile', methods=['POST'])
+def upload_file():
+    return attachment.upload_file(request)
+
+
+@app.route('/api/getAttach/<filename>', methods=['GET'])
+def get_attach(filename):
+    return attachment.get_attach(filename)
+
+
+@app.route('/api/deleteAttach/', methods=['POST'])
+def delete_attach():
+    return attachment.delete_attach(request)
