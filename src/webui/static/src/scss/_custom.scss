@@ -1,0 +1,24 @@
+// Here you can add other styles
+.c-avatar {
+  border: 1px solid #a19d9d;
+  transition: .3s;
+
+  &:hover {
+    border: 1px solid #4e4d4d;
+  }
+}
+
+.c-header-nav {
+  padding: 10px;
+}
+
+.project {
+  &__add-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__add-input {
+    margin-bottom: 10px;
+  }
+}

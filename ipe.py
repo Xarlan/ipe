@@ -25,6 +25,7 @@ def initdb():
 @click.command()
 def run():
     print("run ipe")
+    webui.app.debug = True
     webui.app.run()
 
 

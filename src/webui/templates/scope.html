@@ -1,0 +1,28 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-responsive-sm table-striped">
+            <thead>
+            <tr>
+              <th>IP</th>
+              <th>Domain</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for host in scope %}
+              <tr>
+                <td>{{ host.name }}</td>
+                <td>{{ host.criticality }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

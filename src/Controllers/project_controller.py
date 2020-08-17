@@ -9,7 +9,7 @@ def get_many_projects(limit=50, page=0):
     try:
         # TODO: make logic of pagination
         projects = Project.query.order_by(Project.id.desc()).offset(int(limit)*abs(int(page))).limit(int(limit)).all()
-        return flask.render_template('projects.html', title='projects', projects=projects)
+        return flask.render_template('index.html', title='Projects', page="project", layer=1, projects=projects)
     except:
         return "Error occured!!!"
 
@@ -157,4 +157,10 @@ def delete_project(req):
 def get_project(id):
     project = Project.query.get_or_404(id)
     vulns = Vulnerability.query.order_by(Vulnerability.id.desc()).all()
-    return flask.render_template('project.html', title='project', project=project, vulns=vulns)
+    # return flask.render_template('vulnerabilities.html', title=project.name, project=project, vulns=vulns)
+    return flask.render_template('vulnerabilities.html', title=project.name, page="vulns", layer=2, project=project, project_id=project.id, vulns=vulns)
+
+
+def get_scope(id):
+    scope = Host.query.filter_by(project_id=id).all()
+    return flask.render_template('scope.html', title="Scope", scope=scope, page="scope", layer=2, project_id=id)

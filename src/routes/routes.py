@@ -2,11 +2,11 @@ from src.webui import app
 import src.Controllers.project_controller as project
 import src.Controllers.vulnerability_controller as vulnerability
 import src.Controllers.attachment_controller as attachment
-from flask import request
+from flask import request, render_template
+
 
 # Projects
-
-
+@app.route('/', methods=['GET'], defaults={'limit': 50, 'page': 0})
 @app.route('/projects/', methods=['GET'], defaults={'limit': 50, 'page': 0})
 @app.route('/projects/<limit>/', methods=['GET'], defaults={'page': 0})
 @app.route('/projects/<limit>/<page>', methods=['GET'])
@@ -36,6 +36,11 @@ def delete_project():
 
 
 # Host
+@app.route('/project/scope/<int:id>')
+def get_scope(id):
+    return project.get_scope(id)
+
+
 @app.route('/api/project/importScope', methods=['POST'])
 def import_scope():
     return project.import_project_scope(request)

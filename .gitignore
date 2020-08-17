@@ -131,3 +131,6 @@ dmypy.json
 
 # user add
 .idea/*
+
+# node modules
+src/webui/static/node_modules/

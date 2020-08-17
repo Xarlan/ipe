@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>IPE - {{ title }}</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='assets/favicon/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='assets/favicon/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='assets/favicon/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='assets/favicon/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='assets/favicon/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='assets/favicon/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='assets/favicon/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='assets/favicon/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/favicon/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='assets/favicon/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='assets/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='assets/favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="">
+    <link rel="manifest" href="{{ url_for('static', filename='assets/favicon/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='assets/favicon/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Main styles for this application-->
+    <link href="{{ url_for('static', filename='prod/style.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='node_modules/@coreui/chartjs/dist/css/coreui-chartjs.css') }}" rel="stylesheet">
+  </head>
+  <body class="c-app">
+    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+      <div class="c-sidebar-brand d-lg-down-none">
+        <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+          <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#full') | replace('%40', '@') | replace('%23', '#') }}"></use>
+        </svg>
+        <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
+          <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#signet') | replace('%40', '@') | replace('%23', '#') }}"></use>
+        </svg>
+      </div>
+      <ul class="c-sidebar-nav">
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/projects/">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-speedometer') | replace('%40', '@') | replace('%23', '#') }}"></use>
+            </svg> Projects</a>
+        </li>
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/common/">
+            <svg class="c-sidebar-nav-icon">
+              <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
+            </svg> Common </a>
+        </li>
+        {% if layer == 2 %}
+          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="./scope/{{project_id}}">
+              <svg class="c-sidebar-nav-icon">
+                <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
+              </svg> Scope </a>
+          </li>
+          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/project/{{project_id}}">
+              <svg class="c-sidebar-nav-icon">
+                <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
+              </svg> Vulnerabilities </a>
+          </li>
+        {% endif %}
+      </ul>
+      <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
+    </div>
+    <div class="c-wrapper c-fixed-components">
+      <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+        <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
+          <svg class="c-icon c-icon-lg">
+            <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-menu') | replace('%40', '@') | replace('%23', '#') }}"></use>
+          </svg>
+        </button>
+          <a class="c-header-brand d-lg-none" href="#">
+              <svg width="118" height="46" alt="CoreUI Logo">
+                <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#full') | replace('%40', '@') | replace('%23', '#') }}"></use>
+              </svg>
+          </a>
+        <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+          <svg class="c-icon c-icon-lg">
+            <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-menu') | replace('%40', '@') | replace('%23', '#') }}"></use>
+          </svg>
+        </button>
+        <ul class="c-header-nav ml-auto mr-4">
+          <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              <div class="c-avatar">
+                <svg class="c-icon">
+                  <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-user') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                </svg>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right pt-0">
+              <a class="dropdown-item" href="#">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                </svg> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">
+                <svg class="c-icon mr-2">
+                  <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-account-logout') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                </svg> Logout</a>
+            </div>
+          </li>
+        </ul>
+          <div class="c-subheader">
+            {% if page == "project" %}
+              <div class="c-header-nav">
+                  <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New project</button>
+              </div>
+            {% endif %}
+            {% if page == "vulns" %}
+              <div class="c-header-nav">
+                  <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New vulnerability</button>
+              </div>
+            {% endif %}
+            {% if page == "scope" %}
+              <div class="c-header-nav">
+                  <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">Import scope</button>
+              </div>
+            {% endif %}
+          </div>
+      </header>
+      <div class="c-body">
+        <main class="c-main">
+          <div class="container-fluid">
+            <div class="fade-in">
+                {% block content%}
+
+                {% endblock %}
+
+            </div>
+          </div>
+        </main>
+        <footer class="c-footer">
+          <div>IPE: Integration Pentest Envinronment</div>
+          <div class="ml-auto">Powered by&nbsp;CoreUI</div>
+        </footer>
+      </div>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="{{ url_for('static', filename='node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js') }}"></script>
+    <!--[if IE]><!-->
+    <script src="{{ url_for('static', filename='node_modules/@coreui/icons/js/svgxuse.min.js') }}"></script>
+    <!--<![endif]-->
+    <!-- Plugins and scripts required by this view-->
+    <script src="{{ url_for('static', filename='node_modules/@coreui/chartjs/dist/js/coreui-chartjs.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='node_modules/@coreui/utils/dist/coreui-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='prod/main.js') }}"></script>
+  </body>
+</html>
