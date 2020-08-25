@@ -41,7 +41,7 @@
         </svg>
       </div>
       <ul class="c-sidebar-nav">
-        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/projects/">
+        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'project' %}c-active{%endif%}" href="/projects/">
             <svg class="c-sidebar-nav-icon">
               <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-speedometer') | replace('%40', '@') | replace('%23', '#') }}"></use>
             </svg> Projects</a>
@@ -52,14 +52,14 @@
             </svg> Common </a>
         </li>
         {% if layer == 2 %}
-          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="./scope/{{project_id}}">
+          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'scope' %}c-active{%endif%}" href="./scope/{{project_id}}">
               <svg class="c-sidebar-nav-icon">
-                <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-playlist-add') | replace('%40', '@') | replace('%23', '#') }}"></use>
               </svg> Scope </a>
           </li>
-          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/project/{{project_id}}">
+          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'vulns' %}c-active{%endif%}" href="/project/{{project_id}}">
               <svg class="c-sidebar-nav-icon">
-                <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-bug') | replace('%40', '@') | replace('%23', '#') }}"></use>
               </svg> Vulnerabilities </a>
           </li>
         {% endif %}
@@ -116,8 +116,9 @@
               </div>
             {% endif %}
             {% if page == "scope" %}
-              <div class="c-header-nav">
-                  <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">Import scope</button>
+              <div class="c-header-nav c-header-nav_scope">
+                  <button class="btn btn-block btn-outline-success scope__create" type="button" data-toggle="modal" data-target="#scopeModal">Import scope</button>
+                  <button class="btn btn-block btn-outline-danger scope__delete" type="button">Delete selected</button>
               </div>
             {% endif %}
           </div>
@@ -134,7 +135,7 @@
           </div>
         </main>
         <footer class="c-footer">
-          <div>IPE: Integration Pentest Envinronment</div>
+          <div>IPE: Integrated Pentest Environment</div>
           <div class="ml-auto">Powered by&nbsp;CoreUI</div>
         </footer>
       </div>
@@ -147,6 +148,12 @@
     <!-- Plugins and scripts required by this view-->
     <script src="{{ url_for('static', filename='node_modules/@coreui/chartjs/dist/js/coreui-chartjs.bundle.js') }}"></script>
     <script src="{{ url_for('static', filename='node_modules/@coreui/utils/dist/coreui-utils.js') }}"></script>
-    <script src="{{ url_for('static', filename='prod/main.js') }}"></script>
+    <script>
+      const SERVER_PROTO = "http://";
+      const SERVER_HOST = "127.0.0.1:5000";
+    </script>
+    {% block script %}
+
+    {% endblock %}
   </body>
 </html>

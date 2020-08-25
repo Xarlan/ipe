@@ -93,8 +93,9 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var button = document.getElementsByClassName("project__add-btn")[0];
-button.addEventListener("click", function (event) {
+///////////////////////////////////  Projects page     ///////////////////////////////
+var project_add_btn = document.getElementsByClassName("project__add-btn")[0];
+project_add_btn.addEventListener("click", function (event) {
   event.preventDefault();
   var name = document.querySelector("input[name=name]").value;
   var description = document.querySelector("input[name=description]").value;

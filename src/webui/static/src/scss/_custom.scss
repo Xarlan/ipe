@@ -10,6 +10,11 @@
 
 .c-header-nav {
   padding: 10px;
+
+  &_scope .btn-block{
+    width: auto;
+    margin: 0 5px;
+  }
 }
 
 .project {
@@ -20,5 +25,20 @@
 
   &__add-input {
     margin-bottom: 10px;
+  }
+}
+
+.scope {
+  &__add-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__success .modal-footer, &__delete  .modal-footer{
+    margin: 0 auto;
+  }
+
+  &__table {
+    text-align: center;
   }
 }

@@ -1,5 +1,6 @@
-let button = document.getElementsByClassName("project__add-btn")[0];
-button.addEventListener("click", event=>{
+///////////////////////////////////  Projects page     ///////////////////////////////
+let project_add_btn = document.getElementsByClassName("project__add-btn")[0];
+project_add_btn.addEventListener("click", event=>{
     event.preventDefault();
     let name = document.querySelector("input[name=name]").value;
     let description = document.querySelector("input[name=description]").value;
@@ -24,7 +25,7 @@ button.addEventListener("click", event=>{
         retro_delete: checked_retro
     };
 
-    fetch("http://127.0.0.1:5000/api/creteProject", {
+    fetch(SERVER_PROTO + SERVER_HOST + "/api/creteProject", {
         method: "post",
         headers: {
           'Content-Type': 'application/json'

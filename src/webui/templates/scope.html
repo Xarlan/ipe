@@ -5,9 +5,10 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <table class="table table-responsive-sm table-striped">
+          <table class="table scope__table table-responsive-sm table-striped">
             <thead>
             <tr>
+              <th><input type="checkbox" id="get-all"></th>
               <th>IP</th>
               <th>Domain</th>
             </tr>
@@ -15,8 +16,9 @@
             <tbody>
             {% for host in scope %}
               <tr>
-                <td>{{ host.name }}</td>
-                <td>{{ host.criticality }}</td>
+                <td><input class="host-chbox" type="checkbox" id="host-{{ host.id }}" value="{{ host.id }}"></td>
+                <td class="scope__ip">{{ host.ip | replace('None', '-')}}</td>
+                <td class="scope__domain">{{ host.domain | replace('None', '-') }}</td>
               </tr>
             {% endfor %}
             </tbody>
@@ -25,4 +27,58 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="scopeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Import scope</h4>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+          <form class="scope__add-form" action="/" method="POST">
+              <label class="col-form-label" for="scope_hosts">Select file with hosts in format one host (IP or domain) per line</label>
+              <input id="scope_hosts" type="file" name="scope_hosts">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+          <button class="btn btn-primary scope__add-btn" type="button">Import scope</button>
+        </div>
+      </div>
+      <!-- /.modal-content-->
+    </div>
+    <!-- /.modal-dialog-->
+  </div>
+  <div class="modal fade scope__success" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Scope successfully imported</h4>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="button" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+      <!-- /.modal-content-->
+    </div>
+    <!-- /.modal-dialog-->
+  </div>
+  <div class="modal fade scope__delete" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Scope modified</h4>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" type="button" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    let project_id = {{project_id}};
+  </script>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='prod/scope.js') }}"></script>
 {% endblock %}

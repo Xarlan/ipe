@@ -41,15 +41,15 @@
         <div class="modal-body">
           <form class="project__add-form" action="/api/creteProject" method="POST">
               <label class="col-form-label" for="name">Project name</label>
-              <input type="text" class="project__add-input form-control" name="name" placeholder="Test pentest project" value="test project">
+              <input type="text" class="project__add-input form-control" name="name" id="name" placeholder="Test pentest project" value="test project">
               <label class="col-form-label" for="description">Description</label>
-              <input type="text" class="project__add-input form-control" name="description" placeholder="description of this project" value="lorem ipsum dolor set amet">
+              <input type="text" class="project__add-input form-control" name="description" id="description" placeholder="description of this project" value="lorem ipsum dolor set amet">
               <label class="col-form-label" for="date_from">Date from (YYYY-MM-DD)</label>
-              <input type="text" class="project__add-input form-control" name="date_from" placeholder="2020-09-02">
+              <input type="text" class="project__add-input form-control" name="date_from" id="date_from" placeholder="2020-09-02">
               <label class="col-form-label" for="date_to">Date to (YYYY-MM-DD)</label>
-              <input type="text" class="project__add-input form-control" name="date_to" placeholder="2020-09-29">
+              <input type="text" class="project__add-input form-control" name="date_to" id="date_to" placeholder="2020-09-29">
               <label class="col-form-label" for="host_history">Host history</label>
-              <input type="text" class="project__add-input form-control" name="host_history" placeholder="10" value="10">
+              <input type="text" class="project__add-input form-control" name="host_history" id="host_history" placeholder="10" value="10">
 <!--              <label class="col-form-label" for="retro_delete">Retro delete</label>-->
 <!--              <input type="text" class="project__add-input form-control" name="retro_delete" placeholder="0" value="0">-->
               <div class="form-group row">
@@ -77,4 +77,7 @@
     </div>
     <!-- /.modal-dialog-->
   </div>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='prod/index.js') }}"></script>
 {% endblock %}
