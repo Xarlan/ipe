@@ -32,6 +32,17 @@ class Host(db.Model):
         return '<Host>'
 
 
+class Attachment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String, nullable=True)
+    path = db.Column(db.String, nullable=False)
+    filename = db.Column(db.String, nullable=False)
+    vuln_id = db.Column(db.Integer, db.ForeignKey('vulnerability.id', ondelete='CASCADE'))
+
+    def  __repr__(self):
+        return '<Attachment>'
+
+
 #  Class for table vulnerability
 # TODO: after creating table User add field "creator" (Integer - id of user)
 class Vulnerability(db.Model):
@@ -50,6 +61,7 @@ class Vulnerability(db.Model):
 
     # relationships for CASCADE delete
     vuln_ref = relationship(VulnRef, backref="vulnerability", cascade="all, delete", passive_deletes=True)
+    attach = relationship(Attachment, backref="vulnerability", cascade="all, delete", passive_deletes=True)
 
     def __repr__(self):
         return '<Vulnerability %r>' % self.id
@@ -71,14 +83,3 @@ class Project(db.Model):
 
     def __repr__(self):
         return '<Project>'
-
-
-class Attachment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String, nullable=True)
-    path = db.Column(db.String, nullable=False)
-    filename = db.Column(db.String, nullable=False)
-    vuln_id = db.Column(db.Integer, db.ForeignKey('vulnerability.id'), nullable=False)
-
-    def  __repr__(self):
-        return '<Attachment>'
