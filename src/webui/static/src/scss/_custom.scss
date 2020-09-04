@@ -17,6 +17,10 @@
   }
 }
 
+.c-subheader_hide {
+  display: none;
+}
+
 .project {
   &__add-form {
     display: flex;
@@ -40,5 +44,127 @@
 
   &__table {
     text-align: center;
+  }
+}
+
+.vuln {
+  &__radio-elem {
+    position: absolute !important;
+    top: 0;
+    left: -9999px;
+  }
+}
+
+.vuln__radio-elem:checked + .vuln__radio-fake {
+  &_1 {
+    box-shadow: 0 0 0 0.2rem rgba(82, 168, 255, 0.5);
+  }
+
+  &_2 {
+    box-shadow: 0 0 0 0.2rem rgba(77, 195, 116, 0.5);
+  }
+
+  &_3 {
+    box-shadow: 0 0 0 0.2rem rgba(224, 164, 35, 0.5);
+  }
+
+  &_4 {
+    box-shadow: 0 0 0 0.2rem rgba(233, 109, 109, 0.5);
+  }
+}
+
+.vuln__table {
+  text-align: center;
+}
+
+.vuln__table-id, .vuln__table-critic, .vuln__table-context {
+  width: 100px;
+}
+
+.vuln__buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.logo__img {
+  width: 50px;
+}
+
+.attachments {
+  border-bottom: 1px solid #bfbfbf;
+  border-top: 1px solid #bfbfbf;
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.attach__list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.attach__input {
+  opacity: 0;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: -9999px;
+}
+
+.attach__item {
+  position: relative;
+  display: block;
+  list-style-type: none;
+  width: 180px;
+  border: 1px solid #bfbfbf;
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-right: 20px;
+  margin-top: 15px;
+
+  &-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    content: "X";
+    width: 20px;
+    height: 20px;
+    border-radius: 0 5px 0 0;
+    background: red;
+    font-size: 18px;
+    color: #000;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    font-weight: 600;
+
+    &.disabled {
+      display: none;
+    }
+  }
+}
+
+.attach__description {
+  margin-bottom: 10px;
+}
+
+.attach__upload {
+  margin-top: 10px;
+}
+
+.attach__existed {
+  margin-top: 20px;
+  background: #f5f5f5;
+
+  li {
+    padding: 5px 0;
+  }
+
+  button {
+    line-height: 1;
   }
 }

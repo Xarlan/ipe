@@ -134,3 +134,6 @@ dmypy.json
 
 # node modules
 src/webui/static/node_modules/
+
+# upload folder
+upload/

@@ -36,7 +36,7 @@ def delete_project():
 
 
 # Host
-@app.route('/project/scope/<int:id>')
+@app.route('/scope/<int:id>')
 def get_scope(id):
     return project.get_scope(id)
 
@@ -51,6 +51,11 @@ def delete_scope():
     return project.delete_from_scope(request)
 
 # Vulnerability
+@app.route('/vulnerability/<int:id>')
+def get_vulnerability(id):
+    return vulnerability.get_vulnerability(id)
+
+
 @app.route('/api/createVulnerability', methods=['POST'])
 def create_vulnerability():
     return vulnerability.create_vulnerability(request)
@@ -72,9 +77,9 @@ def upload_file():
     return attachment.upload_file(request)
 
 
-@app.route('/api/getAttach/<filename>', methods=['GET'])
-def get_attach(filename):
-    return attachment.get_attach(filename)
+@app.route('/api/getAttach/<filename_id>', methods=['GET'])
+def get_attach(filename_id):
+    return attachment.get_attach(filename_id)
 
 
 @app.route('/api/deleteAttach/', methods=['POST'])

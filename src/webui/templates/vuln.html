@@ -1,0 +1,150 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="row">
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-body">
+      <form class="vuln__add-form" action="/" method="POST">
+          <label class="col-form-label" for="vuln-name">Title</label>
+          <input type="text" id="vuln-name" class="vuln__add-input form-control" name="name" placeholder="Stored XSS via upload file" value="{{vuln.name}}">
+
+          <label class="col-form-label" for="vuln-target">Target</label>
+          <input type="text" id="vuln-target" class="vuln__add-input form-control" name="target" placeholder="192.168.1.1, test.com" value="{% for host in target %}{%if host.ip%}{{host.ip + ' , '}}{%endif%}{%if host.domain%}{{host.domain + ' , '}}{%endif%}{% endfor %}">
+
+          <label class="col-form-label" for="vuln-full-path">Full path</label>
+          <input type="text" id="vuln-full-path" class="vuln__add-input form-control" name="full_path" placeholder="login.site.com/rest/somemethod?id=1" value="{{vuln.full_path}}">
+
+          <div class="form-group row">
+              <label class="col-md-3 col-form-label">Context of vulnerability</label>
+              <div class="col-md-8 col-form-label">
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input vuln__context" id="inline-radio1" type="radio" value="0" name="object" {% if vuln.object == 0%}checked{%endif%}>
+                  <label class="form-check-label" for="inline-radio1">web</label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input vuln__context" id="inline-radio2" type="radio" value="1" name="object" {% if vuln.object == 1%}checked{%endif%}>
+                  <label class="form-check-label" for="inline-radio2">mobile</label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input vuln__context" id="inline-radio3" type="radio" value="2" name="object" {% if vuln.object == 2%}checked{%endif%}>
+                  <label class="form-check-label" for="inline-radio3">library</label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                  <input class="form-check-input vuln__context" id="inline-radio4" type="radio" value="3" name="object" {% if vuln.object == 3%}checked{%endif%}>
+                  <label class="form-check-label" for="inline-radio4">other</label>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-md-3 col-form-label">Criticality</label>
+              <div class="col-md-8 col-form-label">
+                <div class="form-check form-check-inline mr-1">
+                  <label class="form-check-label vuln__radio" for="vuln-criticality1">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-criticality1" type="radio" value="0" name="criticality" {% if vuln.criticality == 0%}checked{%endif%}>
+                      <span class="btn btn-sm btn-info vuln__radio-fake_1">Info</span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-criticality2">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-criticality2" type="radio" value="1" name="criticality" {% if vuln.criticality == 1%}checked{%endif%}>
+                      <span class="btn btn-sm btn-success vuln__radio-fake_2">Low</span>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-criticality3">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-criticality3" type="radio" value="2" name="criticality" {% if vuln.criticality == 2%}checked{%endif%}>
+                      <span class="btn btn-sm btn-warning vuln__radio-fake_3">Middle</span>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-criticality4">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-criticality4" type="radio" value="3" name="criticality" {% if vuln.criticality == 3%}checked{%endif%}>
+                      <span class="btn btn-sm btn-danger vuln__radio-fake_4">High</span>
+                    </label>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-md-3 col-form-label">Probability</label>
+              <div class="col-md-8 col-form-label">
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-probability1">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-probability1" type="radio" value="0" name="probability" {% if vuln.probability == 0%}checked{%endif%}>
+                      <span class="btn btn-sm btn-info vuln__radio-fake_1">Info</span>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-probability2">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-probability2" type="radio" value="1" name="probability" {% if vuln.probability == 1%}checked{%endif%}>
+                      <span class="btn btn-sm btn-success vuln__radio-fake_2">Low</span>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-probability3">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-probability3" type="radio" value="2" name="probability" {% if vuln.probability == 2%}checked{%endif%}>
+                      <span class="btn btn-sm btn-warning vuln__radio-fake_3">Middle</span>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-1">
+                    <label class="form-check-label vuln__radio" for="vuln-probability4">
+                      <input class="form-check-input vuln__radio-elem" id="vuln-probability4" type="radio" value="3" name="probability" {% if vuln.probability == 3%}checked{%endif%}>
+                      <span class="btn btn-sm btn-danger vuln__radio-fake_4">High</span>
+                    </label>
+                </div>
+              </div>
+          </div>
+
+          <label class="col-form-label" for="vuln-desc">Description</label>
+          <textarea type="text" id="vuln-desc" class="vuln__add-input form-control" name="description" placeholder="Some description of vulnerability">{{vuln.description}}</textarea>
+
+          <label class="col-form-label" for="vuln-risk">Risk</label>
+          <textarea type="text" id="vuln-risk" class="vuln__add-input form-control" name="risk" placeholder="Risk of vulnerability">{{vuln.risk}}</textarea>
+
+          <label class="col-form-label" for="vuln-details">Technical details</label>
+          <textarea type="text" id="vuln-details" class="vuln__add-input form-control" name="details" placeholder="Some technical details of vulnerability">{{vuln.details}}</textarea>
+
+          <label class="col-form-label" for="vuln-recommendation">Recommendations for mitigation</label>
+          <textarea type="text" id="vuln-recommendation" class="vuln__add-input form-control" name="recommendation" placeholder="Recommendations for mitigation">{{vuln.recommendation}}</textarea>
+
+          <div class="vuln__buttons">
+              <button class="btn btn-primary vuln__edit-btn" type="button">Save changes</button>
+              <button class="btn btn-danger vuln__delete-btn" type="button">Delete vulnerability</button>
+          </div>
+
+          <div class="attachments">
+              <span class="col-form-label">Attachments</span>
+              <ul class="attach__existed">
+                  {% for attach in attachments %}
+                    <li>
+                      <a href="/api/getAttach/{{attach.id}}" target="_blank">{{attach.filename}}</a> - <span>{{attach.description}}</span> - <button class="btn btn-outline-danger attach__delete" onclick="delete_attach(event, {{attach.id}})">delete</button>
+                    </li>
+                  {% endfor %}
+              </ul>
+              <ul class="attach__list">
+                  <li class="attach__item">
+                      <label for="uploadbtn-1" class="btn btn-outline-primary scope__add-btn uploadButton">choose attach</label>
+                      <input class="attach__input" type="file" id="uploadbtn-1" accept=".jpg,.jpeg,.png" onchange="handle_attach(this)">
+                      <input type="text" id="attach__description" class="attach__description form-control" name="attach__description" placeholder="description">
+                      <span class="attach__name"></span>
+                      <span class="attach__item-close disabled" onclick="this.closest('li').parentNode.removeChild(this.closest('li'));">X</span>
+                  </li>
+              </ul>
+              <button class="btn btn-primary btn-success attach__upload" type="button">Upload</button>
+          </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+    let vuln_id = {{ vuln.id }};
+    let project_id = {{ project_id }};
+</script>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='prod/vuln.js') }}"></script>
+{% endblock %}

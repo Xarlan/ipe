@@ -33,12 +33,13 @@
   <body class="c-app">
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
       <div class="c-sidebar-brand d-lg-down-none">
-        <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-          <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#full') | replace('%40', '@') | replace('%23', '#') }}"></use>
-        </svg>
-        <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
-          <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#signet') | replace('%40', '@') | replace('%23', '#') }}"></use>
-        </svg>
+        <img class="logo__img" src="{{ url_for('static', filename='assets/brand/logo.png') }}" alt="logo">
+<!--        <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">-->
+<!--          <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#full') | replace('%40', '@') | replace('%23', '#') }}"></use>-->
+<!--        </svg>-->
+<!--        <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">-->
+<!--          <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#signet') | replace('%40', '@') | replace('%23', '#') }}"></use>-->
+<!--        </svg>-->
       </div>
       <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'project' %}c-active{%endif%}" href="/projects/">
@@ -52,12 +53,12 @@
             </svg> Common </a>
         </li>
         {% if layer == 2 %}
-          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'scope' %}c-active{%endif%}" href="./scope/{{project_id}}">
+          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'scope' %}c-active{%endif%}" href="/scope/{{project_id}}">
               <svg class="c-sidebar-nav-icon">
                 <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-playlist-add') | replace('%40', '@') | replace('%23', '#') }}"></use>
               </svg> Scope </a>
           </li>
-          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'vulns' %}c-active{%endif%}" href="/project/{{project_id}}">
+          <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link {% if page == 'vulns' or  page == 'vuln'%}c-active{%endif%}" href="/project/{{project_id}}">
               <svg class="c-sidebar-nav-icon">
                 <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-bug') | replace('%40', '@') | replace('%23', '#') }}"></use>
               </svg> Vulnerabilities </a>
@@ -74,9 +75,10 @@
           </svg>
         </button>
           <a class="c-header-brand d-lg-none" href="#">
-              <svg width="118" height="46" alt="CoreUI Logo">
-                <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#full') | replace('%40', '@') | replace('%23', '#') }}"></use>
-              </svg>
+            <img class="logo__img" src="{{ url_for('static', filename='assets/brand/logo-dark.png') }}" alt="logo">
+<!--              <svg width="118" height="46" alt="CoreUI Logo">-->
+<!--                <use xlink:href="{{ url_for('static', filename='assets/brand/coreui.svg#full') | replace('%40', '@') | replace('%23', '#') }}"></use>-->
+<!--              </svg>-->
           </a>
         <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
           <svg class="c-icon c-icon-lg">
@@ -104,7 +106,7 @@
             </div>
           </li>
         </ul>
-          <div class="c-subheader">
+          <div class="c-subheader {% if page == 'vuln'%}c-subheader_hide{% endif %}">
             {% if page == "project" %}
               <div class="c-header-nav">
                   <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New project</button>

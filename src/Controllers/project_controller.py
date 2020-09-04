@@ -156,7 +156,7 @@ def delete_project(req):
 
 def get_project(id):
     project = Project.query.get_or_404(id)
-    vulns = Vulnerability.query.order_by(Vulnerability.id.desc()).all()
+    vulns = Vulnerability.query.order_by(Vulnerability.id.asc()).all()
     # return flask.render_template('vulnerabilities.html', title=project.name, project=project, vulns=vulns)
     return flask.render_template('vulnerabilities.html', title=project.name, page="vulns", layer=2, project=project, project_id=project.id, vulns=vulns)
 

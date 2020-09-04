@@ -1,5 +1,6 @@
 import flask
 import os
+import shutil
 from src.db.entities import db, Attachment
 from time import time
 from random import choice
@@ -29,31 +30,35 @@ def upload_file(req):
             if not os.path.exists(directory_path):
                 os.mkdir(directory_path)
             file.save(os.path.join(directory_path, filename))
-            attachment = Attachment(description=description, path=directory_path + '/' + filename, filename=filename,
+            attachment = Attachment(description=description, path=directory_path, filename=filename,
                                     vuln_id=int(vuln_id))
 
             try:
                 db.session.add(attachment)
                 db.session.commit()
-                return flask.make_response(flask.jsonify({"status": 1}), 200)
+                return flask.make_response(flask.jsonify({"status": 1, "filename": attachment.filename,
+                                                          "id": attachment.id, "description": attachment.description}),
+                                           200)
 
             except:
                 return flask.make_response(flask.jsonify({"status": 0, "error": "Error during adding attachment"}), 500)
+        else:
+            return flask.make_response(flask.jsonify({"status": 0, "error": "Incorrect input data - incorrect extension"}), 500)
     except:
         return flask.make_response(flask.jsonify({"status": 0, "error": "Incorrect input data"}), 500)
 
 
-def get_attach(filename):
-    attachment = Attachment.query.get_or_404(filename)
+def get_attach(filename_id):
+    attachment = Attachment.query.get_or_404(filename_id)
     return flask.send_from_directory(attachment.path, attachment.filename)
 
 
 def delete_attach(req):
     try:
         req_body = req.get_json()
-        filename = req_body['filename']
-        attachment = Attachment.query.get_or_404(filename)
-        os.remove(attachment.path)
+        attach_id = int(req_body['id'])
+        attachment = Attachment.query.get_or_404(attach_id)
+        os.remove(attachment.path + "/" + attachment.filename)
 
         try:
             db.session.delete(attachment)
@@ -69,5 +74,5 @@ def delete_attach(req):
 
 # method for deleting folder with attachments; execute on delete of vulnerability
 def delete_folder(vul_id):
-    os.rmdir(UPLOAD_FOLDER + str(vul_id))
+    shutil.rmtree(UPLOAD_FOLDER + str(vul_id))
     return True

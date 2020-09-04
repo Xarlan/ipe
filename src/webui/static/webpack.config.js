@@ -5,7 +5,9 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     index: ['./src/js/index.js', './src/scss/style.scss'],
-    scope: ['./src/js/scope.js']
+    scope: ['./src/js/scope.js'],
+    vulns: ['./src/js/vulns.js'],
+    vuln: ['./src/js/vuln.js']
   },
 
   output: {
