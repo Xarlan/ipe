@@ -2,6 +2,7 @@ from src.webui import app
 import src.Controllers.project_controller as project
 import src.Controllers.vulnerability_controller as vulnerability
 import src.Controllers.attachment_controller as attachment
+import src.Controllers.report_controller as report
 from flask import request, render_template
 
 
@@ -85,3 +86,13 @@ def get_attach(filename_id):
 @app.route('/api/deleteAttach/', methods=['POST'])
 def delete_attach():
     return attachment.delete_attach(request)
+
+# Report
+@app.route('/report/vuln/<project_id>')
+def generate_report_vuln(project_id):
+    return report.generate_report_vuln(project_id)
+
+
+@app.route('/report/host/<project_id>')
+def generate_report_host(project_id):
+    return report.generate_report_host(project_id)

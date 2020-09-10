@@ -109,18 +109,23 @@
           <div class="c-subheader {% if page == 'vuln'%}c-subheader_hide{% endif %}">
             {% if page == "project" %}
               <div class="c-header-nav">
-                  <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New project</button>
+                  <button class="btn btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New project</button>
               </div>
             {% endif %}
             {% if page == "vulns" %}
               <div class="c-header-nav">
-                  <button class="btn btn-block btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New vulnerability</button>
+                  <button class="btn btn-outline-success project__create" type="button" data-toggle="modal" data-target="#largeModal">New vulnerability</button>
+<!--                  <button class="btn btn-primary report__create" type="button">Report per Vuln</button>-->
+                <div class="report-buttons">
+                  <button class="btn btn-primary report__create" id="report-per-vuln">Report per Vuln</button>
+                  <button class="btn btn-primary report__create" id="report-per-host" type="button">Report per Host</button>
+                </div>
               </div>
             {% endif %}
             {% if page == "scope" %}
               <div class="c-header-nav c-header-nav_scope">
-                  <button class="btn btn-block btn-outline-success scope__create" type="button" data-toggle="modal" data-target="#scopeModal">Import scope</button>
-                  <button class="btn btn-block btn-outline-danger scope__delete" type="button">Delete selected</button>
+                  <button class="btn btn-outline-success scope__create" type="button" data-toggle="modal" data-target="#scopeModal">Import scope</button>
+                  <button class="btn btn-outline-danger scope__delete" type="button">Delete selected</button>
               </div>
             {% endif %}
           </div>

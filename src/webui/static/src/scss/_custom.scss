@@ -8,7 +8,9 @@
   }
 }
 
-.c-header-nav {
+.c-subheader .c-header-nav {
+  justify-content: space-between;
+  width: 100%;
   padding: 10px;
 
   &_scope .btn-block{

@@ -137,3 +137,6 @@ src/webui/static/node_modules/
 
 # upload folder
 upload/
+
+# folder with draft reports
+tmp_reports/
