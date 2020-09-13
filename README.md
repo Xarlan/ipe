@@ -48,3 +48,12 @@ This is will be more flexibility tool than [pwnOSINT](https://github.com/Xarlan/
 4. remove folder /src/webui/static/src
 5. remove all frontend configs
 6. push to release branch
+
+## How to install this tool
+1. $ git clone this project
+2. $ cd ipe
+3. $ sudo apt install python3-venv python3-dev libcurl4-gnutls-dev librtmp-dev build-essential
+4. $ python3 -m venv ./venv
+5. $ . venv/bin/activate
+6. (venv)$ pip install --upgrade pip
+7. (venv)$ pip install -r requirements.txt
