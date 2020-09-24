@@ -141,6 +141,21 @@
             </div>
           </div>
         </main>
+        {% if page == "project" %}
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item {% if is_first_page == True %}disabled{% endif %}">
+                <a tabindex="-1" href="/projects/{{limit}}/{{curr_page - 1}}" class="page-link">Previous</a>
+              </li>
+              {% for page in pages_for_pagination %}
+                <li class="page-item {% if page.is_active == True %}active{% endif %}"><a class="page-link" href="/projects/{{limit}}/{{page.page}}">{{page.page}}</a></li>
+              {% endfor %}
+              <li class="page-item {% if is_last_page == True %}disabled{% endif %}">
+                <a class="page-link" href="/projects/{{limit}}/{{curr_page + 1}}">Next</a>
+              </li>
+            </ul>
+          </nav>
+        {% endif %}
         <footer class="c-footer">
           <div>IPE: Integrated Pentest Environment</div>
           <div class="ml-auto">Powered by&nbsp;CoreUI</div>

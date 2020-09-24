@@ -3,13 +3,50 @@ from src.db.entities import Project, db, Host, Vulnerability
 from datetime import date
 import ipaddress
 import validators
+import math
 
 
-def get_many_projects(limit=50, page=0):
+def get_many_projects(limit=50, page=1):
+    offset = page - 1
     try:
-        # TODO: make logic of pagination
-        projects = Project.query.order_by(Project.id.desc()).offset(int(limit)*abs(int(page))).limit(int(limit)).all()
-        return flask.render_template('index.html', title='Projects', page="project", layer=1, projects=projects)
+        projects = Project.query.order_by(Project.id.desc()).offset(int(limit)*abs(int(offset))).limit(int(limit)).all()
+        projects_count = db.session.query(Project).count()
+        pages_for_pagination = []
+
+        if page == 1:
+            if math.ceil(projects_count/limit) < 3:
+                if math.ceil(projects_count/limit) == 2:
+                    pages_for_pagination.extend([{"page": page, "is_active": True},
+                                                 {"page": page+1, "is_active": False}
+                                                 ])
+                else:
+                    pages_for_pagination.extend([{"page": page, "is_active": True}])
+            else:
+                pages_for_pagination.extend([{"page": page, "is_active": True},
+                                             {"page": page + 1, "is_active": False},
+                                             {"page": page + 2, "is_active": False}
+                                             ])
+        elif page == math.ceil(projects_count/limit):
+            if math.ceil(projects_count / limit) < 3:
+                if math.ceil(projects_count/limit) == 2:
+                    pages_for_pagination.extend([{"page": page - 1, "is_active": False},
+                                                 {"page": page, "is_active": True}
+                                                 ])
+            else:
+                pages_for_pagination.extend([{"page": page - 2, "is_active": False},
+                                             {"page": page - 1, "is_active": False},
+                                             {"page": page, "is_active": True}
+                                             ])
+        elif math.ceil(projects_count/limit) - page >= 1:
+            pages_for_pagination.extend([{"page": page - 1, "is_active": False},
+                                         {"page": page, "is_active": True},
+                                         {"page": page + 1, "is_active": False}
+                                         ])
+
+        return flask.render_template('index.html', title='Projects', page="project", layer=1, projects=projects,
+                                     is_first_page=bool(page == 1), is_last_page=bool(math.ceil(projects_count/limit) == page),
+                                     pages_for_pagination=pages_for_pagination, curr_page=page, limit=limit
+                                     )
     except:
         return "Error occured!!!"
 
@@ -49,13 +86,17 @@ def import_project_scope(req):
     existing_ips = []
     existing_domains = []
     hosts = []
+    invalid_hosts = []
 
     for host in scope_hosts:
-        if validators.domain(str(host)):
-            importing_domains.append(str(host))
-        else:
-            # that is for converting ipv6 like 2dfc:0:0:0:0217:cbff:fe8c:0 to 2dfc::217:cbff:fe8c:0
-            importing_ips.append(str(ipaddress.ip_address(host)))
+        try:
+            if validators.domain(str(host)):
+                importing_domains.append(str(host))
+            else:
+                # that is for converting ipv6 like 2dfc:0:0:0:0217:cbff:fe8c:0 to 2dfc::217:cbff:fe8c:0
+                importing_ips.append(str(ipaddress.ip_address(host)))
+        except:
+            invalid_hosts.append(str(host))
 
     try:
         existing_hosts = Host.query.filter_by(project_id=project_id).all()
@@ -77,9 +118,9 @@ def import_project_scope(req):
 
         db.session.add_all(hosts)
         db.session.commit()
-        return flask.make_response(flask.jsonify({"status": 1}), 200)
+        return flask.make_response(flask.jsonify({"status": 1, "invalid_hosts": invalid_hosts}), 200)
     except:
-        return flask.make_response(flask.jsonify({"status": 0, "error": "Error during importing scope"}), 500)
+        return flask.make_response(flask.jsonify({"status": 0, "error": "Error during importing scope", "invalid_hosts": invalid_hosts}), 500)
 
 
 #   Scope delete (single and multiple)

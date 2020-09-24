@@ -25,7 +25,7 @@ project_add_btn.addEventListener("click", event=>{
         retro_delete: checked_retro
     };
 
-    fetch(SERVER_PROTO + SERVER_HOST + "/api/creteProject", {
+    fetch(SERVER_PROTO + SERVER_HOST + "/api/createProject", {
         method: "post",
         headers: {
           'Content-Type': 'application/json'

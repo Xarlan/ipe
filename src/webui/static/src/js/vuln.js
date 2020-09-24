@@ -172,25 +172,28 @@ attach_upload_btn.addEventListener("click", ()=>{
 
 window.delete_attach = function(event, id){
     event.preventDefault();
-    fetch(SERVER_PROTO + SERVER_HOST + "/api/deleteAttach/", {
-        method: "post",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id
+    let is_delete = confirm("Are you sure you want to delete attachment ?");
+    if (is_delete){
+            fetch(SERVER_PROTO + SERVER_HOST + "/api/deleteAttach/", {
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id
+            })
         })
-    })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            if (data.status === 1) {
-                atta_item = event.target.closest("li");
-                atta_item.parentNode.removeChild(atta_item);
-            } else {
-                alert(data.error)
-            }
-        })
-        .catch(error => alert(error))
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 1) {
+                    atta_item = event.target.closest("li");
+                    atta_item.parentNode.removeChild(atta_item);
+                } else {
+                    alert(data.error)
+                }
+            })
+            .catch(error => alert(error))
+    }
 };

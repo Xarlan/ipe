@@ -7,10 +7,10 @@ from flask import request, render_template
 
 
 # Projects
-@app.route('/', methods=['GET'], defaults={'limit': 50, 'page': 0})
-@app.route('/projects/', methods=['GET'], defaults={'limit': 50, 'page': 0})
-@app.route('/projects/<limit>/', methods=['GET'], defaults={'page': 0})
-@app.route('/projects/<limit>/<page>', methods=['GET'])
+@app.route('/', methods=['GET'], defaults={'limit': 50, 'page': 1})
+@app.route('/projects/', methods=['GET'], defaults={'limit': 50, 'page': 1})
+@app.route('/projects/<int:limit>/', methods=['GET'], defaults={'page': 1})
+@app.route('/projects/<int:limit>/<int:page>', methods=['GET'])
 # name of function the same as name of Controller method
 def get_many_projects(limit, page):
     return project.get_many_projects(limit, page)
@@ -21,7 +21,7 @@ def get_project(id):
     return project.get_project(id)
 
 
-@app.route('/api/creteProject', methods=['POST'])
+@app.route('/api/createProject', methods=['POST'])
 def create_project():
     return project.create_project(request)
 

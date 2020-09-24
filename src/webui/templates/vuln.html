@@ -6,17 +6,17 @@
   <div class="card">
     <div class="card-body">
       <form class="vuln__add-form" action="/" method="POST">
-          <label class="col-form-label" for="vuln-name">Title</label>
+          <label class="col-form-label" for="vuln-name"><span>Title:</span></label>
           <input type="text" id="vuln-name" class="vuln__add-input form-control" name="name" placeholder="Stored XSS via upload file" value="{{vuln.name}}">
 
-          <label class="col-form-label" for="vuln-target">Target</label>
+          <label class="col-form-label" for="vuln-target"><span>Target:</span></label>
           <input type="text" id="vuln-target" class="vuln__add-input form-control" name="target" placeholder="192.168.1.1, test.com" value="{% for host in target %}{%if host.ip%}{{host.ip + ' , '}}{%endif%}{%if host.domain%}{{host.domain + ' , '}}{%endif%}{% endfor %}">
 
-          <label class="col-form-label" for="vuln-full-path">Full path</label>
+          <label class="col-form-label" for="vuln-full-path"><span>Full path:</span></label>
           <input type="text" id="vuln-full-path" class="vuln__add-input form-control" name="full_path" placeholder="login.site.com/rest/somemethod?id=1" value="{{vuln.full_path}}">
 
           <div class="form-group row">
-              <label class="col-md-3 col-form-label">Context of vulnerability</label>
+              <label class="col-md-3 col-form-label"><span>Context of vulnerability:</span></label>
               <div class="col-md-8 col-form-label">
                 <div class="form-check form-check-inline mr-1">
                   <input class="form-check-input vuln__context" id="inline-radio1" type="radio" value="0" name="object" {% if vuln.object == 0%}checked{%endif%}>
@@ -38,7 +38,7 @@
           </div>
 
           <div class="form-group row">
-              <label class="col-md-3 col-form-label">Criticality</label>
+              <label class="col-md-3 col-form-label"><span>Criticality:</span></label>
               <div class="col-md-8 col-form-label">
                 <div class="form-check form-check-inline mr-1">
                   <label class="form-check-label vuln__radio" for="vuln-criticality1">
@@ -68,7 +68,7 @@
           </div>
 
           <div class="form-group row">
-              <label class="col-md-3 col-form-label">Probability</label>
+              <label class="col-md-3 col-form-label"><span>Probability:</span></label>
               <div class="col-md-8 col-form-label">
                 <div class="form-check form-check-inline mr-1">
                     <label class="form-check-label vuln__radio" for="vuln-probability1">
@@ -97,16 +97,16 @@
               </div>
           </div>
 
-          <label class="col-form-label" for="vuln-desc">Description</label>
+          <label class="col-form-label" for="vuln-desc"><span>Description:</span></label>
           <textarea type="text" id="vuln-desc" class="vuln__add-input form-control" name="description" placeholder="Some description of vulnerability">{{vuln.description}}</textarea>
 
-          <label class="col-form-label" for="vuln-risk">Risk</label>
+          <label class="col-form-label" for="vuln-risk"><span>Risk:</span></label>
           <textarea type="text" id="vuln-risk" class="vuln__add-input form-control" name="risk" placeholder="Risk of vulnerability">{{vuln.risk}}</textarea>
 
-          <label class="col-form-label" for="vuln-details">Technical details</label>
+          <label class="col-form-label" for="vuln-details"><span>Technical details:</span></label>
           <textarea type="text" id="vuln-details" class="vuln__add-input form-control" name="details" placeholder="Some technical details of vulnerability">{{vuln.details}}</textarea>
 
-          <label class="col-form-label" for="vuln-recommendation">Recommendations for mitigation</label>
+          <label class="col-form-label" for="vuln-recommendation"><span>Recommendations for mitigation:</span></label>
           <textarea type="text" id="vuln-recommendation" class="vuln__add-input form-control" name="recommendation" placeholder="Recommendations for mitigation">{{vuln.recommendation}}</textarea>
 
           <div class="vuln__buttons">

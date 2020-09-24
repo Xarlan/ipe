@@ -64,17 +64,17 @@
         </div>
         <div class="modal-body">
           <form class="vuln__add-form" action="/" method="POST">
-              <label class="col-form-label" for="vuln-name">Title &lt;Stored XSS via upload file&gt;</label>
-              <input type="text" id="vuln-name" class="vuln__add-input form-control" name="name" placeholder="Stored XSS via upload file" value="Type here something">
+              <label class="col-form-label" for="vuln-name"><span>Title:</span> &lt;Example: Stored XSS via upload file&gt;</label>
+              <input type="text" id="vuln-name" class="vuln__add-input form-control" name="name" placeholder="Example: Stored XSS via upload file" value="Type here something">
 
-              <label class="col-form-label" for="vuln-target">Target</label>
-              <input type="text" id="vuln-target" class="vuln__add-input form-control" name="target" placeholder="192.168.1.1, test.com">
+              <label class="col-form-label" for="vuln-target"><span>Target:</span> &lt;Example: 192.168.1.1, test.com&gt;</label>
+              <input type="text" id="vuln-target" class="vuln__add-input form-control" name="target" placeholder="Example: 192.168.1.1, test.com">
 
-              <label class="col-form-label" for="vuln-full-path">Full path &lt;login.site.com/rest/somemethod?id=1&gt;</label>
-              <input type="text" id="vuln-full-path" class="vuln__add-input form-control" name="full_path" placeholder="login.site.com/rest/somemethod?id=1" value="Type here something">
+              <label class="col-form-label" for="vuln-full-path"><span>Full path:</span> &lt;Example: login.site.com/rest/somemethod?id=1&gt;</label>
+              <input type="text" id="vuln-full-path" class="vuln__add-input form-control" name="full_path" placeholder="Example: login.site.com/rest/somemethod?id=1" value="Type here something">
 
               <div class="form-group row">
-                  <label class="col-md-3 col-form-label">Context of vulnerability</label>
+                  <label class="col-md-3 col-form-label"><span>Context of vulnerability:</span></label>
                   <div class="col-md-8 col-form-label">
                     <div class="form-check form-check-inline mr-1">
                       <input class="form-check-input vuln__context" id="inline-radio1" type="radio" value="0" name="object" checked>
@@ -96,7 +96,7 @@
               </div>
 
               <div class="form-group row">
-                  <label class="col-md-3 col-form-label">Criticality</label>
+                  <label class="col-md-3 col-form-label"><span>Criticality:</span></label>
                   <div class="col-md-8 col-form-label">
                     <div class="form-check form-check-inline mr-1">
                       <label class="form-check-label vuln__radio" for="vuln-criticality1">
@@ -126,7 +126,7 @@
               </div>
 
               <div class="form-group row">
-                  <label class="col-md-3 col-form-label">Probability</label>
+                  <label class="col-md-3 col-form-label"><span>Probability:</span></label>
                   <div class="col-md-8 col-form-label">
                     <div class="form-check form-check-inline mr-1">
                         <label class="form-check-label vuln__radio" for="vuln-probability1">
@@ -155,16 +155,16 @@
                   </div>
               </div>
 
-              <label class="col-form-label" for="vuln-desc">Description</label>
+              <label class="col-form-label" for="vuln-desc"><span>Description:</span></label>
               <textarea type="text" id="vuln-desc" class="vuln__add-input form-control" name="description" placeholder="Some description of vulnerability">Type here something</textarea>
 
-              <label class="col-form-label" for="vuln-risk">Risk</label>
+              <label class="col-form-label" for="vuln-risk"><span>Risk:</span></label>
               <textarea type="text" id="vuln-risk" class="vuln__add-input form-control" name="risk" placeholder="Risk of vulnerability">Type here something</textarea>
 
-              <label class="col-form-label" for="vuln-details">Technical details</label>
+              <label class="col-form-label" for="vuln-details"><span>Technical details:</span></label>
               <textarea type="text" id="vuln-details" class="vuln__add-input form-control" name="details" placeholder="Some technical details of vulnerability">Type here something</textarea>
 
-              <label class="col-form-label" for="vuln-recommendation">Recommendations for mitigation</label>
+              <label class="col-form-label" for="vuln-recommendation"><span>Recommendations for mitigation:</span></label>
               <textarea type="text" id="vuln-recommendation" class="vuln__add-input form-control" name="recommendation" placeholder="Recommendations for mitigation">Type here something</textarea>
 
           </form>

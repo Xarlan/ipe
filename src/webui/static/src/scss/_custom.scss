@@ -49,6 +49,22 @@
   }
 }
 
+.scope__success {
+
+  .modal-content {
+    max-height: 90vh;
+  }
+
+  .modal-body {
+    overflow-y: auto;
+    font-size: 16px;
+
+    .invalid_host {
+      margin-left: 15px;
+    }
+  }
+}
+
 .vuln {
   &__radio-elem {
     position: absolute !important;
@@ -169,4 +185,8 @@
   button {
     line-height: 1;
   }
+}
+
+.col-form-label span {
+  font-weight: bold;
 }

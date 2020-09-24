@@ -24,7 +24,7 @@
             {% endfor %}
         </table>
         <h2>Add new project</h2>
-        <form action="/api/creteProject" method="POST">
+        <form action="/api/createProject" method="POST">
             <input type="text" name="name" placeholder="Test pentest project" value="test project">
             <input type="text" name="description" placeholder="description of this project" value="lorem ipsum dolor set amet">
             <input type="text" name="date_from" placeholder="timestamp from" value="1593648000">
@@ -54,7 +54,7 @@
                     retro_delete: retro_delete
                 };
 
-                fetch("http://127.0.0.1:5000/api/creteProject", {
+                fetch("http://127.0.0.1:5000/api/createProject", {
                     method: "post",
                     headers: {
                       'Content-Type': 'application/json'

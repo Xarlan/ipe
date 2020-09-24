@@ -33,6 +33,16 @@ scope_import_btn.addEventListener("click", event => {
                         let scope_modal = coreui.Modal.getInstance(scope_modal_elem);
                         scope_modal.hide();
                         let success_modal = new coreui.Modal(document.getElementById('successModal'));
+                        if (data.invalid_hosts.length > 0) {
+                            success_modal._element.childNodes[1].children[0].childNodes[3].innerText = `Invalid hosts that did not added:`;
+                            for (let i=0; i<data.invalid_hosts.length; i++) {
+                                let item_li = document.createElement('li');
+                                item_li.className = "invalid_host";
+                                item_li.innerText = `${data.invalid_hosts[i]}`;
+                                success_modal._element.childNodes[1].children[0].childNodes[3].append(item_li);
+                            }
+                        }
+
                         success_modal.show();
                         document.getElementById('successModal').addEventListener('hide.coreui.modal', (e)=>{
                             window.location = "";
@@ -76,32 +86,35 @@ delete_selected_btn.addEventListener("click", ()=>{
         }
     });
     if (hosts_for_delete.length) {
-        fetch(SERVER_PROTO + SERVER_HOST + "/api/project/deleteScope", {
-            method: "post",
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                project_id : project_id,
-                delete_hosts: hosts_for_delete
+        let is_delete = confirm("Are you sure you want to delete selected hosts ?");
+        if (is_delete){
+            fetch(SERVER_PROTO + SERVER_HOST + "/api/project/deleteScope", {
+                method: "post",
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    project_id : project_id,
+                    delete_hosts: hosts_for_delete
+                })
             })
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            if (data.status === 1) {
-                let delete_modal = new coreui.Modal(document.getElementById('deleteModal'));
-                delete_modal.show();
-                document.getElementById('deleteModal').addEventListener('hide.coreui.modal', (e)=>{
-                    window.location = "";
-                },false);
-            } else if (data.status === 0) {
-                alert(data.error);
-            }
-        })
-        .catch(error => {
-            alert(error);
-        });
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 1) {
+                    let delete_modal = new coreui.Modal(document.getElementById('deleteModal'));
+                    delete_modal.show();
+                    document.getElementById('deleteModal').addEventListener('hide.coreui.modal', (e)=>{
+                        window.location = "";
+                    },false);
+                } else if (data.status === 0) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+        }
     }
 });
