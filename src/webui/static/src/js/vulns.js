@@ -78,7 +78,6 @@ vuln_add_btn.addEventListener("click", (event)=>{
 });
 
 
-// TODO: implement authorization here and change request to POST
 create_report_vuln_btn.addEventListener("click", (event)=>{
     event.preventDefault();
     let form = document.createElement("form");
@@ -89,7 +88,6 @@ create_report_vuln_btn.addEventListener("click", (event)=>{
     form.submit()
 });
 
-// TODO: implement authorization here and change request to POST
 create_report_host_btn.addEventListener("click", event=> {
     event.preventDefault();
     let form = document.createElement("form");

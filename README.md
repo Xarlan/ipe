@@ -57,3 +57,11 @@ This is will be more flexibility tool than [pwnOSINT](https://github.com/Xarlan/
 5. $ . venv/bin/activate
 6. (venv)$ pip install --upgrade pip
 7. (venv)$ pip install -r requirements.txt
+
+## How to run this tool
+1. In file config.py type in your database settings in variable SQLALCHEMY_DATABASE_URI
+2. Execute command "python ipe.py generate-secret-key" and insert the result in variable SECRET_KEY in file config.py
+3. In file src/webui/static/prod/config.js type in protocol and host
+4. In file ipe.py change IPE_RUN_HOST and IPE_RUN_PORT to your values
+5. Create new user with command "python ipe.py register-user"
+6. start using command "python ipe.py run"

@@ -3,9 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 from flask import Flask
+from flask_login import LoginManager
+from config import Config
 
 app = Flask(__name__)
-# max size of upload attachment
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+app.config.from_object(Config)
+login_manager = LoginManager(app)
+
 
 from src.routes import routes

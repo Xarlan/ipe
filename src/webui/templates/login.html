@@ -1,0 +1,41 @@
+{% extends 'common/base.html' %}
+
+{% block login_page %}
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <h1>Login</h1>
+                <p class="text-muted">Sign In to your account</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend"><span class="input-group-text">
+                      <svg class="c-icon">
+                          <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-user') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                      </svg></span></div>
+                  <input class="form-control" id="email" type="text" placeholder="Email">
+                </div>
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend"><span class="input-group-text">
+                      <svg class="c-icon">
+                          <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-lock-locked') | replace('%40', '@') | replace('%23', '#') }}"></use>
+                      </svg></span></div>
+                  <input class="form-control" id="password" type="password" placeholder="Password">
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <button class="btn btn-primary px-4" id="login" type="button">Login</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='prod/login.js') }}"></script>
+{% endblock %}

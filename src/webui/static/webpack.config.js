@@ -7,7 +7,8 @@ module.exports = {
     index: ['./src/js/index.js', './src/scss/style.scss'],
     scope: ['./src/js/scope.js'],
     vulns: ['./src/js/vulns.js'],
-    vuln: ['./src/js/vuln.js']
+    vuln: ['./src/js/vuln.js'],
+    login: ['./src/js/login.js']
   },
 
   output: {

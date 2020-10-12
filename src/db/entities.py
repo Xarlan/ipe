@@ -2,9 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import INET
 import src.webui as webui
 from sqlalchemy.orm import relationship
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from src.webui import login_manager
 
-webui.app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ipeuser:ipeuser@localhost:5432/ipe"
-webui.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(webui.app)
 
 
@@ -44,7 +45,6 @@ class Attachment(db.Model):
 
 
 #  Class for table vulnerability
-# TODO: after creating table User add field "creator" (Integer - id of user)
 class Vulnerability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='CASCADE'))
@@ -58,6 +58,7 @@ class Vulnerability(db.Model):
     risk = db.Column(db.Text, nullable=False)
     details = db.Column(db.Text, nullable=False)
     recommendation = db.Column(db.Text, nullable=False)
+    creator = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     # relationships for CASCADE delete
     vuln_ref = relationship(VulnRef, backref="vulnerability", cascade="all, delete", passive_deletes=True)
@@ -83,3 +84,33 @@ class Project(db.Model):
 
     def __repr__(self):
         return '<Project>'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.query(User).get(user_id)
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False, unique=True)
+    pass_hash = db.Column(db.String, nullable=False)
+    user_role = db.Column(db.Integer, default=1)
+
+    vulnerability = relationship(Vulnerability, backref="user")
+
+    def __init__(self, **kwargs):
+        self.user_name = kwargs.get("user_name")
+        self.email = kwargs.get("email")
+        self.pass_hash = generate_password_hash(kwargs.get("pass_hash"))
+        self.user_role = kwargs.get("user_role")
+
+    def __repr__(self):
+        return "<{}:{}>".format(self.id, self.username)
+
+    def set_password(self, password):
+        self.pass_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.pass_hash, password)

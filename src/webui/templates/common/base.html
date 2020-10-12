@@ -30,7 +30,8 @@
 
     <link href="{{ url_for('static', filename='node_modules/@coreui/chartjs/dist/css/coreui-chartjs.css') }}" rel="stylesheet">
   </head>
-  <body class="c-app">
+  <body class="c-app {% if page == 'login' %}flex-row align-items-center{%endif%}">
+    {% if page != "login" %}
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
       <div class="c-sidebar-brand d-lg-down-none">
         <img class="logo__img" src="{{ url_for('static', filename='assets/brand/logo.png') }}" alt="logo">
@@ -99,7 +100,7 @@
                   <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-settings') | replace('%40', '@') | replace('%23', '#') }}"></use>
                 </svg> Settings</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="/logout">
                 <svg class="c-icon mr-2">
                   <use xlink:href="{{ url_for('static', filename='node_modules/@coreui/icons/sprites/free.svg#cil-account-logout') | replace('%40', '@') | replace('%23', '#') }}"></use>
                 </svg> Logout</a>
@@ -162,6 +163,12 @@
         </footer>
       </div>
     </div>
+    {% endif %}
+    {% if page == "login" %}
+      {% block login_page %}
+
+      {% endblock %}
+    {% endif %}
     <!-- CoreUI and necessary plugins-->
     <script src="{{ url_for('static', filename='node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js') }}"></script>
     <!--[if IE]><!-->
@@ -170,10 +177,8 @@
     <!-- Plugins and scripts required by this view-->
     <script src="{{ url_for('static', filename='node_modules/@coreui/chartjs/dist/js/coreui-chartjs.bundle.js') }}"></script>
     <script src="{{ url_for('static', filename='node_modules/@coreui/utils/dist/coreui-utils.js') }}"></script>
-    <script>
-      const SERVER_PROTO = "http://";
-      const SERVER_HOST = "127.0.0.1:5000";
-    </script>
+    <script src="{{ url_for('static', filename='prod/config.js') }}"></script>
+
     {% block script %}
 
     {% endblock %}
