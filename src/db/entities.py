@@ -6,8 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from src.webui import login_manager
 
-db = SQLAlchemy(webui.app)
-
+db = webui.db
 
 # class for table Vuln_ref
 class VulnRef(db.Model):

@@ -3,7 +3,7 @@ from datetime import timedelta
 
 class Config:
     # secret key for JWT
-    SECRET_KEY = '5063137cb9f74b18b818ad1c3c07f962'
+    SECRET_KEY = '2c6aa3069c474cf38872c6e1dfa7a044'
     # max size of upload attachment
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)

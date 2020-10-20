@@ -108,13 +108,13 @@ def delete_attach():
 @app.route('/report/vuln/<project_id>')
 @login_required
 def generate_report_vuln(project_id):
-    return report.generate_report_vuln(project_id)
+    return report.generate_report(project_id, 1)
 
 
 @app.route('/report/host/<project_id>')
 @login_required
 def generate_report_host(project_id):
-    return report.generate_report_host(project_id)
+    return report.generate_report(project_id, 2)
 
 
 # User
