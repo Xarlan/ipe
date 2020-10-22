@@ -98,16 +98,22 @@
           </div>
 
           <label class="col-form-label" for="vuln-desc"><span>Description:</span></label>
-          <textarea type="text" id="vuln-desc" class="vuln__add-input form-control" name="description" placeholder="Some description of vulnerability">{{vuln.description}}</textarea>
+          <textarea type="text" id="vuln-desc" class="vuln__add-input form-control" name="description" placeholder="Some description of vulnerability" rows=3>{{vuln.description}}</textarea>
 
           <label class="col-form-label" for="vuln-risk"><span>Risk:</span></label>
-          <textarea type="text" id="vuln-risk" class="vuln__add-input form-control" name="risk" placeholder="Risk of vulnerability">{{vuln.risk}}</textarea>
+          <textarea type="text" id="vuln-risk" class="vuln__add-input form-control" name="risk" placeholder="Risk of vulnerability" rows=3>{{vuln.risk}}</textarea>
 
           <label class="col-form-label" for="vuln-details"><span>Technical details:</span></label>
-          <textarea type="text" id="vuln-details" class="vuln__add-input form-control" name="details" placeholder="Some technical details of vulnerability">{{vuln.details}}</textarea>
+          <textarea type="text" id="vuln-details" class="vuln__add-input form-control" name="details" placeholder="Some technical details of vulnerability" rows=3>{{vuln.details}}</textarea>
 
           <label class="col-form-label" for="vuln-recommendation"><span>Recommendations for mitigation:</span></label>
-          <textarea type="text" id="vuln-recommendation" class="vuln__add-input form-control" name="recommendation" placeholder="Recommendations for mitigation">{{vuln.recommendation}}</textarea>
+          <textarea type="text" id="vuln-recommendation" class="vuln__add-input form-control" name="recommendation" placeholder="Recommendations for mitigation" rows=3>{{vuln.recommendation}}</textarea>
+
+          <label class="col-form-label" for="vuln-request"><span>Request(s):</span></label>
+          <textarea type="text" id="vuln-request" class="vuln__add-input form-control" name="request" placeholder="Request(s)" rows=5>{{vuln.request}}</textarea>
+
+          <label class="col-form-label" for="vuln-response"><span>Response(s):</span></label>
+          <textarea type="text" id="vuln-response" class="vuln__add-input form-control" name="response" placeholder="Response(s)" rows=5>{{vuln.response}}</textarea>
 
           <div class="vuln__buttons">
               <button class="btn btn-primary vuln__edit-btn" type="button">Save changes</button>

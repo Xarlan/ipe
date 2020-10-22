@@ -10,6 +10,7 @@ from time import time
 import os
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+from flask_login import current_user
 
 # Report types:
 # 1 - per vulnerability
@@ -47,7 +48,6 @@ def add_page_number(paragraph):
 
 
 def generate_report(project_id, report_type):
-    vulns = Vulnerability.query.filter_by(project_id=project_id).order_by(Vulnerability.id.asc())
     scope = Host.query.filter_by(project_id=project_id).all()
 
     document = Document()
@@ -111,7 +111,14 @@ def generate_report(project_id, report_type):
 
     document.add_heading('Results', level=1).style.font.color.rgb = RGBColor(0x0, 0x0, 0x0)
 
-    if report_type == 1:
+    if report_type == 1 or report_type == 3:
+        vulns = None
+        if report_type == 1:
+            vulns = Vulnerability.query.filter_by(project_id=project_id).order_by(Vulnerability.id.asc())
+        elif report_type == 3:
+            vulns = Vulnerability.query.filter_by(project_id=project_id, creator=current_user.id).order_by(
+                Vulnerability.id.asc())
+
         for vuln in vulns:
             refs = db.session.query(VulnRef.host_id).filter(VulnRef.vuln_id == vuln.id).all()
             hosts = Host.query.filter(Host.project_id == project_id,
@@ -204,6 +211,15 @@ def generate_report(project_id, report_type):
             p_recommendation_title.add_run('Recommendation').bold = True
             document.add_paragraph(vuln.recommendation).add_run().add_break()
 
+            if vuln.request or vuln.response:
+                p_recommendation_title = document.add_paragraph()
+                p_recommendation_title.add_run('Request(s)').bold = True
+                document.add_paragraph(vuln.request).add_run().add_break()
+
+                p_recommendation_title = document.add_paragraph()
+                p_recommendation_title.add_run('Response(s)').bold = True
+                document.add_paragraph(vuln.response).add_run().add_break()
+
             if attachments:
                 for attach in attachments:
                     document.add_picture(os.path.join(UPLOAD_FOLDER + str(vuln.id), attach.filename), width=Inches(6))
@@ -220,6 +236,7 @@ def generate_report(project_id, report_type):
         return flask.send_from_directory(TMP_FOLDER, tmp_filename, as_attachment=True, cache_timeout=0)
 
     elif report_type == 2:
+        vulns = Vulnerability.query.filter_by(project_id=project_id).order_by(Vulnerability.id.asc())
         for vuln in vulns:
             refs = db.session.query(VulnRef.host_id).filter(VulnRef.vuln_id == vuln.id).all()
             hosts = Host.query.filter(Host.project_id == project_id,
@@ -309,6 +326,15 @@ def generate_report(project_id, report_type):
                     p_recommendation_title.add_run('Recommendation').bold = True
                     document.add_paragraph(vuln.recommendation).add_run().add_break()
 
+                    if vuln.request or vuln.response:
+                        p_recommendation_title = document.add_paragraph()
+                        p_recommendation_title.add_run('Request(s)').bold = True
+                        document.add_paragraph(vuln.request).add_run().add_break()
+
+                        p_recommendation_title = document.add_paragraph()
+                        p_recommendation_title.add_run('Response(s)').bold = True
+                        document.add_paragraph(vuln.response).add_run().add_break()
+
                     if attachments:
                         for attach in attachments:
                             document.add_picture(os.path.join(UPLOAD_FOLDER + str(vuln.id), attach.filename),
@@ -396,6 +422,15 @@ def generate_report(project_id, report_type):
                 p_recommendation_title = document.add_paragraph()
                 p_recommendation_title.add_run('Recommendation').bold = True
                 document.add_paragraph(vuln.recommendation).add_run().add_break()
+
+                if vuln.request or vuln.response:
+                    p_recommendation_title = document.add_paragraph()
+                    p_recommendation_title.add_run('Request(s)').bold = True
+                    document.add_paragraph(vuln.request).add_run().add_break()
+
+                    p_recommendation_title = document.add_paragraph()
+                    p_recommendation_title.add_run('Response(s)').bold = True
+                    document.add_paragraph(vuln.response).add_run().add_break()
 
                 if attachments:
                     for attach in attachments:

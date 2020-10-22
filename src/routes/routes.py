@@ -117,6 +117,12 @@ def generate_report_host(project_id):
     return report.generate_report(project_id, 2)
 
 
+@app.route('/report/user/<project_id>')
+@login_required
+def generate_report_user(project_id):
+    return report.generate_report(project_id, 3)
+
+
 # User
 @app.route('/login/')
 def get_login_page():

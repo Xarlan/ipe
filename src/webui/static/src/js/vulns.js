@@ -1,6 +1,7 @@
 let vuln_add_btn = document.getElementsByClassName("vuln__add-btn")[0];
 let create_report_vuln_btn = document.getElementById("report-per-vuln");
 let create_report_host_btn = document.getElementById("report-per-host");
+let create_report_user_btn = document.getElementById("report-for-user");
 
 vuln_add_btn.addEventListener("click", (event)=>{
     event.preventDefault();
@@ -19,6 +20,8 @@ vuln_add_btn.addEventListener("click", (event)=>{
         checked_probability;
     let target = document.getElementById("vuln-target").value,
         hosts;
+    let request = document.querySelector("textarea[name=request]").value;
+    let response = document.querySelector("textarea[name=response]").value;
 
     if (target.length) {
         hosts = target.split(",").filter(host=>{return host.trim().length > 0}).map(host=>{return host.trim()});
@@ -60,6 +63,8 @@ vuln_add_btn.addEventListener("click", (event)=>{
                 risk: risk,
                 details: details,
                 recommendation: recommendation,
+                request: request,
+                response: response,
                 target: hosts && hosts.length && hosts.length > 0  ? hosts : []
             }
         )
@@ -77,6 +82,15 @@ vuln_add_btn.addEventListener("click", (event)=>{
     .catch(error => alert(error))
 });
 
+create_report_user_btn.addEventListener("click", (event)=>{
+    event.preventDefault();
+    let form = document.createElement("form");
+    form.className = "report__form";
+    form.setAttribute("action", SERVER_PROTO + SERVER_HOST + "/report/user/" + project_id);
+    form.setAttribute("target", "_blank");
+    document.body.append(form);
+    form.submit()
+});
 
 create_report_vuln_btn.addEventListener("click", (event)=>{
     event.preventDefault();

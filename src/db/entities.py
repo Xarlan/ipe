@@ -58,6 +58,8 @@ class Vulnerability(db.Model):
     details = db.Column(db.Text, nullable=False)
     recommendation = db.Column(db.Text, nullable=False)
     creator = db.Column(db.Integer, db.ForeignKey('user.id'))
+    request = db.Column(db.Text, nullable=True)
+    response = db.Column(db.Text, nullable=True)
 
     # relationships for CASCADE delete
     vuln_ref = relationship(VulnRef, backref="vulnerability", cascade="all, delete", passive_deletes=True)

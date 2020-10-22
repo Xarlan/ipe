@@ -45,6 +45,8 @@ vuln_edit_btn.addEventListener("click", () => {
         checked_probability;
     let target = document.getElementById("vuln-target").value,
         hosts;
+    let request = document.querySelector("textarea[name=request]").value;
+    let response = document.querySelector("textarea[name=response]").value;
     if (target.length) {
         hosts = target.split(",").filter(host => {
             return host.trim().length > 0
@@ -90,7 +92,9 @@ vuln_edit_btn.addEventListener("click", () => {
                 risk: risk,
                 details: details,
                 recommendation: recommendation,
-                target: hosts && hosts.length && hosts.length > 0 ? hosts : []
+                target: hosts && hosts.length && hosts.length > 0 ? hosts : [],
+                request: request,
+                response: response,
             }
         )
     })
