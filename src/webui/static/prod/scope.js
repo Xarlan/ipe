@@ -95,6 +95,7 @@
 
 ///////////////////////////////////  Scope page     ///////////////////////////////
 var scope_import_btn = document.getElementsByClassName("scope__add-btn")[0];
+var scope_import_single = document.getElementsByClassName("scope__single-btn")[0];
 var toggle_all_btn = document.getElementById("get-all");
 var delete_selected_btn = document.getElementsByClassName("scope__delete")[0];
 scope_import_btn.addEventListener("click", function (event) {
@@ -106,49 +107,58 @@ scope_import_btn.addEventListener("click", function (event) {
     reader.readAsText(scope_hosts.files[0]);
 
     reader.onload = function () {
-      fetch(SERVER_PROTO + SERVER_HOST + "/api/project/importScope", {
-        method: "post",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          project_id: project_id,
-          scope_hosts: reader.result
-        })
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.status === 1) {
-          var scope_modal_elem = document.getElementById('scopeModal');
-          var scope_modal = coreui.Modal.getInstance(scope_modal_elem);
-          scope_modal.hide();
-          var success_modal = new coreui.Modal(document.getElementById('successModal'));
-
-          if (data.invalid_hosts.length > 0) {
-            success_modal._element.childNodes[1].children[0].childNodes[3].innerText = "Invalid hosts that did not added:";
-
-            for (var i = 0; i < data.invalid_hosts.length; i++) {
-              var item_li = document.createElement('li');
-              item_li.className = "invalid_host";
-              item_li.innerText = "".concat(data.invalid_hosts[i]);
-
-              success_modal._element.childNodes[1].children[0].childNodes[3].append(item_li);
-            }
-          }
-
-          success_modal.show();
-          document.getElementById('successModal').addEventListener('hide.coreui.modal', function (e) {
-            window.location = "";
-          }, false);
-        } else {
-          alert(data.error);
-        }
-      })["catch"](function (error) {
-        return alert(error);
-      });
+      import_scope(reader.result);
     };
   }
 });
+scope_import_single.addEventListener("click", function (event) {
+  var host = document.getElementsByClassName("scope__add-input_single")[0].value;
+  import_scope(host);
+});
+
+import_scope = function import_scope(scope) {
+  fetch(SERVER_PROTO + SERVER_HOST + "/api/project/importScope", {
+    method: "post",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      project_id: project_id,
+      scope_hosts: scope
+    })
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    if (data.status === 1) {
+      var scope_modal_elem = document.getElementById('scopeModal');
+      var scope_modal = coreui.Modal.getInstance(scope_modal_elem);
+      scope_modal.hide();
+      var success_modal = new coreui.Modal(document.getElementById('successModal'));
+
+      if (data.invalid_hosts.length > 0) {
+        success_modal._element.childNodes[1].children[0].childNodes[3].innerText = "Invalid hosts that did not added:";
+
+        for (var i = 0; i < data.invalid_hosts.length; i++) {
+          var item_li = document.createElement('li');
+          item_li.className = "invalid_host";
+          item_li.innerText = "".concat(data.invalid_hosts[i]);
+
+          success_modal._element.childNodes[1].children[0].childNodes[3].append(item_li);
+        }
+      }
+
+      success_modal.show();
+      document.getElementById('successModal').addEventListener('hide.coreui.modal', function (e) {
+        window.location = "";
+      }, false);
+    } else {
+      alert(data.error);
+    }
+  })["catch"](function (error) {
+    return alert(error);
+  });
+};
+
 toggle_all_btn.addEventListener("click", function (e) {
   var checkboxes = document.getElementsByClassName("host-chbox");
 

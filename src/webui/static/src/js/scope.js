@@ -1,5 +1,6 @@
 ///////////////////////////////////  Scope page     ///////////////////////////////
 let scope_import_btn = document.getElementsByClassName("scope__add-btn")[0];
+let scope_import_single = document.getElementsByClassName("scope__single-btn")[0];
 let toggle_all_btn = document.getElementById("get-all");
 let delete_selected_btn = document.getElementsByClassName("scope__delete")[0];
 
@@ -12,49 +13,60 @@ scope_import_btn.addEventListener("click", event => {
         reader.readAsText(scope_hosts.files[0]);
 
         reader.onload = function() {
-            fetch(SERVER_PROTO + SERVER_HOST + "/api/project/importScope", {
-                method: "post",
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        project_id: project_id,
-                        scope_hosts: reader.result
-                    }
-                )
-            })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    if(data.status === 1) {
-                        let scope_modal_elem = document.getElementById('scopeModal');
-                        let scope_modal = coreui.Modal.getInstance(scope_modal_elem);
-                        scope_modal.hide();
-                        let success_modal = new coreui.Modal(document.getElementById('successModal'));
-                        if (data.invalid_hosts.length > 0) {
-                            success_modal._element.childNodes[1].children[0].childNodes[3].innerText = `Invalid hosts that did not added:`;
-                            for (let i=0; i<data.invalid_hosts.length; i++) {
-                                let item_li = document.createElement('li');
-                                item_li.className = "invalid_host";
-                                item_li.innerText = `${data.invalid_hosts[i]}`;
-                                success_modal._element.childNodes[1].children[0].childNodes[3].append(item_li);
-                            }
-                        }
-
-                        success_modal.show();
-                        document.getElementById('successModal').addEventListener('hide.coreui.modal', (e)=>{
-                            window.location = "";
-                        },false);
-                    } else {
-                        alert(data.error)
-                    }
-                })
-                .catch(error => alert(error))
+            import_scope(reader.result);
         };
     }
 });
+
+scope_import_single.addEventListener("click", event => {
+    let host = document.getElementsByClassName("scope__add-input_single")[0].value;
+    import_scope(host);
+});
+
+import_scope = function(scope){
+    fetch(SERVER_PROTO + SERVER_HOST + "/api/project/importScope", {
+        method: "post",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                project_id: project_id,
+                scope_hosts: scope
+            }
+        )
+    })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            if(data.status === 1) {
+                let scope_modal_elem = document.getElementById('scopeModal');
+                let scope_modal = coreui.Modal.getInstance(scope_modal_elem);
+                scope_modal.hide();
+                let success_modal = new coreui.Modal(document.getElementById('successModal'));
+                if (data.invalid_hosts.length > 0) {
+                    success_modal._element.childNodes[1].children[0].childNodes[3].innerText = `Invalid hosts that did not added:`;
+                    for (let i=0; i<data.invalid_hosts.length; i++) {
+                        let item_li = document.createElement('li');
+                        item_li.className = "invalid_host";
+                        item_li.innerText = `${data.invalid_hosts[i]}`;
+                        success_modal._element.childNodes[1].children[0].childNodes[3].append(item_li);
+                    }
+                }
+
+                success_modal.show();
+                document.getElementById('successModal').addEventListener('hide.coreui.modal', (e)=>{
+                    window.location = "";
+                },false);
+            } else {
+                alert(data.error)
+            }
+        })
+        .catch(error => alert(error))
+};
+
+
 
 toggle_all_btn.addEventListener("click", (e)=>{
     let checkboxes = document.getElementsByClassName("host-chbox");

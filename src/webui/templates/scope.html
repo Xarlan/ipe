@@ -36,13 +36,31 @@
         </div>
         <div class="modal-body">
           <form class="scope__add-form" action="/" method="POST">
-              <label class="col-form-label" for="scope_hosts">Select file with hosts in format one host (IP or domain) per line</label>
-              <input id="scope_hosts" type="file" name="scope_hosts">
+            <div class="form-group row">
+              <label class="col-form-label col-md-12" for="scope_hosts">Select file with hosts in format one host (IP or domain) per line</label>
+              <div class="col-md-12">
+                <input id="scope_hosts" type="file" name="scope_hosts">
+                <button class="btn btn-primary scope__add-btn" type="button">Import scope</button>
+              </div>
+
+            </div>
+
+            <br>
+            <br>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="scope-single"><span>Import single host</span></label>
+                <div class="scope__single">
+                  <input type="text" id="scope-single" class="scope__add-input scope__add-input_single form-control" name="host">
+                  <button class="btn btn-primary scope__single-btn" type="button">Import single</button>
+                </div>
+
+              </div>
+
           </form>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-          <button class="btn btn-primary scope__add-btn" type="button">Import scope</button>
+<!--          <button class="btn btn-primary scope__add-btn" type="button">Import scope</button>-->
         </div>
       </div>
       <!-- /.modal-content-->

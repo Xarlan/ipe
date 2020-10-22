@@ -14408,5 +14408,10 @@ body {
 .col-form-label span {
   font-weight: bold; }
 
+.scope__add-input_single {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle; }
+
 
 /*# sourceMappingURL=style.css.map*/
