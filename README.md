@@ -37,16 +37,44 @@ This is will be more flexibility tool than [pwnOSINT](https://github.com/Xarlan/
 6. (venv)$ pip install --upgrade pip
 7. (venv)$ pip install -r requirements.txt
 
-## How to run this tool
+## How to run this tool (for release version)
 1. In file `config.py` type in your database settings in variable `SQLALCHEMY_DATABASE_URI`
-2.  `python ipe.py generate-secret-key `  
+2.  `$ python ipe.py generate-secret-key `  
     Insert the result of command in variable `SECRET_KEY` in file `config.py`
-3. In file `src/webui/static/prod/config.js` type in protocol and host
-4. In file `ipe.py` change `IPE_RUN_HOST` and `IPE_RUN_PORT` to your values
-5. `python ipe.py initdb`
-6. Create new user with command:  
-    `python ipe.py register-user`
-7. `python ipe.py run`
+3. In file `config.py` change `SERVER_HOST` and `SERVER_PORT` to your values
+4. `$ python ipe.py initdb`
+5. Create new user with command:  
+    `$ python ipe.py register-user` 
+    <pre>
+    --name      new user name  
+    --email     new user email  
+    --role      new user role: 0 - god, 1 - regular, 2 - viewer  
+    --password  new user password
+    
+    Field email is unique for users.
+    
+    Example:
+    $ python ipe.py register-user --name testuser --email test@mail.com --role 1 --password qwerty11
+    Success
+    
+    Or using hiding password via prompt password:
+    $ python ipe.py register-user --name testuser --email test@mail.com --role 1
+    password:
+    </pre> 
+    
+6. `$ python ipe.py run`  
+    <pre>
+    --host      Host of server. For example: 192.168.1.125
+    --port      Port of server. For example: 3333
+    
+    Default: SERVER_HOST:SERVER_PORT from config.py
+    
+    You can run ipe with:
+    $ python ipe.py run --host <192.168.1.125> --port <3333>
+    
+    Or just:
+    $ python ipe.py run
+    </pre>
 
 ## Migrating from old version of IPE
 1. `python ipe.py database upgrade`

@@ -2,10 +2,11 @@ from datetime import timedelta
 
 
 class Config:
-    # secret key for JWT
+    # secret key
     SECRET_KEY = '2c6aa3069c474cf38872c6e1dfa7a044'
     # max size of upload attachment
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024
+    # Session cookie settings
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = timedelta(days=7)
@@ -20,3 +21,7 @@ class Config:
     # Database settings
     SQLALCHEMY_DATABASE_URI = "postgresql://ipeuser:ipeuser@localhost:5432/ipe"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    SERVER_PROTO = "http://"
+    SERVER_HOST = "127.0.0.1"
+    SERVER_PORT = "5000"

@@ -10,11 +10,11 @@ from src.db.entities import db
 from src.Controllers.user_controller import register_new_user, delete_user as delete_one_user, change_passwd
 import uuid
 from flask_migrate import init as init_migration, migrate, upgrade, downgrade, current, history, revision as manual_migrate
+from config import Config
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
-
-IPE_RUN_HOST = "0.0.0.0"
-IPE_RUN_PORT = "5000"
+server_host = None
+server_port = None
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
@@ -36,10 +36,29 @@ def drop_db():
 
 
 @click.command()
-def run():
-    print("run ipe")
+@click.option('--host', help="new user name")
+@click.option('--port', help="new user name")
+def run(host, port):
     webui.app.debug = True
-    webui.app.run(host=IPE_RUN_HOST, port=IPE_RUN_PORT)
+    global server_host
+    global server_port
+
+    if host and not port:
+        print("run ipe")
+        server_host = host
+        webui.app.run(host=host, port=Config.SERVER_PORT)
+    elif port and not host:
+        print("run ipe")
+        server_port = port
+        webui.app.run(host=Config.SERVER_HOST, port=port)
+    elif port and host:
+        server_host = host
+        server_port = port
+        print("run ipe")
+        webui.app.run(host=host, port=port)
+    else:
+        print("run ipe")
+        webui.app.run(host=Config.SERVER_HOST, port=Config.SERVER_PORT)
 
 
 @click.command()
@@ -120,6 +139,24 @@ cli.add_command(delete_user)
 cli.add_command(change_password)
 cli.add_command(generate_secret_key)
 cli.add_command(database)
+
+
+@webui.app.context_processor
+def get_server_proto():
+    def get_server_proto():
+        return Config.SERVER_PROTO
+
+    def get_server_host():
+        if server_host and server_port:
+            return server_host + ":" + server_port
+        elif not server_host and server_port:
+            return Config.SERVER_HOST + ":" + server_port
+        elif server_host and not server_port:
+            return server_host + ":" + Config.SERVER_PORT
+        else:
+            return Config.SERVER_HOST + ":" + Config.SERVER_PORT
+
+    return dict(get_server_proto=get_server_proto, get_server_host=get_server_host)
 
 
 if __name__ == '__main__':
