@@ -1,5 +1,5 @@
 import flask
-from flask import send_from_directory
+from flask import send_from_directory, after_this_request
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches
 from src.db.entities import Project, db, Host, Vulnerability, Attachment, VulnRef
@@ -233,7 +233,13 @@ def generate_report(project_id, report_type):
 
         tmp_filename = 'report' + str(int(time())) + '.docx'
         document.save(os.path.join(TMP_FOLDER, tmp_filename))
-        return flask.send_from_directory(TMP_FOLDER, tmp_filename, as_attachment=True, cache_timeout=0)
+
+        @after_this_request
+        def remove_tmp_report(response):
+            os.remove(os.path.join(TMP_FOLDER, tmp_filename))
+            return response
+
+        return send_from_directory(TMP_FOLDER, tmp_filename, as_attachment=True, cache_timeout=0)
 
     elif report_type == 2:
         vulns = Vulnerability.query.filter_by(project_id=project_id).order_by(Vulnerability.id.asc())
@@ -446,4 +452,10 @@ def generate_report(project_id, report_type):
 
         tmp_filename = 'report' + str(int(time())) + '.docx'
         document.save(os.path.join(TMP_FOLDER, tmp_filename))
+
+        @after_this_request
+        def remove_tmp_report(response):
+            os.remove(os.path.join(TMP_FOLDER, tmp_filename))
+            return response
+
         return flask.send_from_directory(TMP_FOLDER, tmp_filename, as_attachment=True, cache_timeout=0)

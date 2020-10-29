@@ -60,9 +60,29 @@ This is will be more flexibility tool than [pwnOSINT](https://github.com/Xarlan/
     Or using hiding password via prompt password:
     $ python ipe.py register-user --name testuser --email test@mail.com --role 1
     password:
-    </pre> 
+    </pre>  
     
-6. `$ python ipe.py run`  
+    If you don't want use HTTPS you can go to step 8.
+    
+6. Generate self-signet certificate for https
+    <pre>
+    openssl req -x509 -newkey rsa:4096 -nodes -out ipe_cert.pem -keyout ipe_key.pem -days 365
+    </pre>
+   Copy 2 resulted files `ipe_cert.pem` and `ipe_key.pem` in directory with file `ipe.py`
+
+7. In file `config.py` change variables like below (only if you done previous step):
+    <pre>
+    ...
+    SESSION_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SECURE = True
+    ...
+    SERVER_PROTO = "https://"
+    ...
+    IPE_CERT = "ipe_cert.pem"
+    IPE_KEY = "ipe_key.pem"
+    </pre>
+
+8. `$ python ipe.py run`  
     <pre>
     --host      Host of server. For example: 192.168.1.125
     --port      Port of server. For example: 3333

@@ -42,23 +42,36 @@ def run(host, port):
     webui.app.debug = True
     global server_host
     global server_port
+    ssl_status = Config.IPE_CERT and Config.IPE_KEY
 
     if host and not port:
         print("run ipe")
         server_host = host
-        webui.app.run(host=host, port=Config.SERVER_PORT)
+        if ssl_status:
+            webui.app.run(host=host, port=Config.SERVER_PORT, ssl_context=(Config.IPE_CERT, Config.IPE_KEY))
+        else:
+            webui.app.run(host=host, port=Config.SERVER_PORT)
     elif port and not host:
         print("run ipe")
         server_port = port
-        webui.app.run(host=Config.SERVER_HOST, port=port)
+        if ssl_status:
+            webui.app.run(host=Config.SERVER_HOST, port=port, ssl_context=(Config.IPE_CERT, Config.IPE_KEY))
+        else:
+            webui.app.run(host=Config.SERVER_HOST, port=port)
     elif port and host:
         server_host = host
         server_port = port
         print("run ipe")
-        webui.app.run(host=host, port=port)
+        if ssl_status:
+            webui.app.run(host=host, port=port, ssl_context=(Config.IPE_CERT, Config.IPE_KEY))
+        else:
+            webui.app.run(host=host, port=port)
     else:
         print("run ipe")
-        webui.app.run(host=Config.SERVER_HOST, port=Config.SERVER_PORT)
+        if ssl_status:
+            webui.app.run(host=Config.SERVER_HOST, port=Config.SERVER_PORT, ssl_context=(Config.IPE_CERT, Config.IPE_KEY))
+        else:
+            webui.app.run(host=Config.SERVER_HOST, port=Config.SERVER_PORT)
 
 
 @click.command()

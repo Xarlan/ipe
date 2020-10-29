@@ -14,7 +14,7 @@ class Config:
     SESSION_COOKIE_SAMESITE = 'Strict'
     REMEMBER_COOKIE_SAMESITE = 'Strict'
 
-    # Change values to True after ssl/tls certificate implementation
+    # Change SESSION_COOKIE_SECURE and  REMEMBER_COOKIE_SECURE to True after ssl/tls certificate implementation
     SESSION_COOKIE_SECURE = False
     REMEMBER_COOKIE_SECURE = False
 
@@ -22,6 +22,12 @@ class Config:
     SQLALCHEMY_DATABASE_URI = "postgresql://ipeuser:ipeuser@localhost:5432/ipe"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Protocol for AJAX communication. If You use TLS certificate - change to "https://", else - "http://"
     SERVER_PROTO = "http://"
     SERVER_HOST = "127.0.0.1"
     SERVER_PORT = "5000"
+
+    # ssl/tls certificate
+    IPE_CERT = ""
+    # ssl/tls key
+    IPE_KEY = ""
